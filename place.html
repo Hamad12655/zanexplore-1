@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The inside Zanzibar - Places</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: antiquewhite; font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+
+:root {
+    --teal: rgb(21, 122, 109);
+    --teal-deep: rgb(23, 85, 85);
+    --navy: rgb(6, 6, 133);
+}
+
+/* ========== NAVIGATION ========== */
+.navbar {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.navpart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.logo img { width: 80px; }
+.link { display: flex; align-items: center; gap: 10px 28px; }
+.link a {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+.link a:hover, .link a.active { background-color: var(--teal); color: white; }
+.navright { display: flex; align-items: center; gap: 16px; }
+.batan a { text-decoration: none; }
+.batan button {
+    color: white;
+    background-color: var(--teal-deep);
+    width: 100px;
+    height: 44px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.language { font-weight: bolder; color: var(--teal-deep); font-size: 14px; }
+.language select { padding: 4px; border-radius: 6px; }
+
+/* ========== HERO ========== */
+.centerpart {
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("picha/place background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0 0 10px 10px;
+    min-height: 350px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+    color: white;
+}
+.center i { letter-spacing: 8px; font-size: clamp(12px, 1.6vw, 18px); }
+.center h1 { font-size: clamp(30px, 5vw, 48px); margin-top: 14px; }
+.center p {
+    font-family: cursive;
+    font-weight: bolder;
+    font-style: oblique;
+    font-size: clamp(18px, 3vw, 30px);
+    margin-top: 10px;
+}
+.search {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 700px;
+    margin-top: 10px;
+}
+.search input {
+    flex: 1;
+    min-width: 0;
+    height: 56px;
+    padding: 0 20px;
+    border-radius: 15px;
+    border: 1px solid white;
+    font-size: 16px;
+}
+.search button {
+    width: 110px;
+    height: 56px;
+    border-radius: 15px;
+    border: 1px solid white;
+    color: white;
+    background-color: rgb(23, 100, 103);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ========== CATEGORIES ========== */
+.categoryall {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    padding: 20px 16px 6px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+.categoryall button {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid white;
+    background-color: white;
+    padding: 10px 16px;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    font-weight: bolder;
+    font-size: 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.25s ease;
+}
+.categoryall button i { font-size: 18px; }
+.categoryall button:hover,
+.categoryall button.active { background-color: var(--teal); color: white; }
+
+/* ========== PLACE CARDS: 5 per row on big PC ========== */
+.placeall {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+}
+.place {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.place:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+.place img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+.place-info {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+.place h1 { font-size: clamp(16px, 1.4vw, 21px); }
+.place p { font-size: 14px; color: #444; }
+.place p i { margin-right: 4px; color: var(--teal); }
+.place .rating { font-size: 13px; }
+.place .detail {
+    margin-top: auto;
+    text-align: center;
+    background-color: var(--navy);
+    color: white;
+    font-weight: bolder;
+    font-size: 14px;
+    padding: 11px;
+    border-radius: 12px;
+}
+.noresult {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--teal-deep);
+}
+
+/* ========== SHOW MORE (desktop only) ========== */
+.showmore-wrap {
+    display: none;
+    text-align: center;
+    padding: 0 24px 40px;
+}
+.showmore-wrap button {
+    background-color: var(--teal-deep);
+    color: white;
+    border: 0;
+    border-radius: 20px;
+    padding: 14px 36px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+.showmore-wrap button:hover { background-color: var(--teal); }
+
+/* ========== LAPTOP: 4 per row ========== */
+@media (max-width: 1399px) {
+    .placeall { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ========== TABLET: 3 per row ========== */
+@media (max-width: 1024px) {
+    .navpart { padding: 8px 16px; }
+    .link { gap: 6px 10px; }
+    .placeall { grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 16px; }
+    .place-info { padding: 12px; }
+}
+
+/* ========== PHONE: 2 per row ========== */
+@media (max-width: 768px) {
+    .navpart { flex-wrap: wrap; padding: 6px 12px; gap: 6px 10px; }
+    .logo { order: 1; }
+    .logo img { width: 55px; }
+    .navright { order: 2; margin-left: auto; gap: 10px; }
+    .batan button { width: 80px; height: 36px; font-size: 14px; }
+    .language p { display: none; }
+    .link {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+    }
+    .link a { font-size: 13px; padding: 7px 8px; flex-shrink: 0; }
+
+    .centerpart { min-height: 280px; padding: 24px 14px; }
+    .center i { letter-spacing: 3px; }
+    .search input { height: 48px; padding: 0 14px; }
+    .search button { width: 90px; height: 48px; }
+
+    .categoryall {
+        justify-content: flex-start;
+        overflow-x: auto;
+        gap: 10px;
+        padding: 16px 12px 6px;
+    }
+    .categoryall button { padding: 8px 12px; font-size: 13px; }
+
+    .placeall { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px 10px 30px; }
+    .place { border-radius: 12px; }
+    .place-info { padding: 10px; gap: 5px; }
+    .place h1 { font-size: 15px; }
+    .place p { font-size: 12px; }
+    .place .rating { font-size: 12px; }
+    .place .detail { font-size: 13px; padding: 9px 4px; border-radius: 10px; }
+}
+
+@media (max-width: 380px) {
+    .link a { font-size: 12px; padding: 6px 5px; }
+    .place h1 { font-size: 14px; }
+    .place p, .place .rating { font-size: 11px; }
+}
+    </style>
+</head>
+<body>
+    <section class="navbar">
+        <div class="navpart">
+            <div class="logo">
+                <img src="picha/logo.png" alt="logo of the system">
+            </div>
+
+            <div class="link">
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="place.html" class="active">Place</a>
+                <a href="Tour.html">Tour</a>
+                <a href="Hotel.html">Hotel</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="navright">
+                <div class="batan">
+                    <a href="login.html"><button>Sign up</button></a>
+                </div>
+                <div class="language">
+                    <p>language</p>
+                    <select name="language">
+                        <option value="English">English</option>
+                        <option value="France">French</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italian</option>
+                        <option value="Swahili">Swahili</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="centerall">
+        <div class="centerpart">
+            <div class="center">
+                <i>Discover. Experience. Remember</i>
+                <h1>ZanExplore</h1>
+                <p>" Whole Zanzibar<br>In your hand "</p>
+            </div>
+
+            <div class="search">
+                <input type="search" id="searchInput" placeholder="Search for place 🔍">
+                <button id="searchBtn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="category">
+        <div class="categoryall" id="categories">
+            <button class="active" data-cat="all"><i class="fa-solid fa-border-all"></i> All</button>
+            <button data-cat="beach"><i class="fa-solid fa-umbrella-beach"></i> Beaches</button>
+            <button data-cat="historical"><i class="fa-solid fa-landmark"></i> Historical</button>
+            <button data-cat="cultural"><i class="fa-solid fa-masks-theater"></i> Cultural</button>
+            <button data-cat="nature"><i class="fa-solid fa-leaf"></i> Nature</button>
+            <button data-cat="spice"><i class="fa-solid fa-pepper-hot"></i> Spice &amp; Agriculture</button>
+        </div>
+    </section>
+
+    <section class="Placecard">
+        <div class="placeall" id="placeList"></div>
+        <div class="showmore-wrap" id="showMoreWrap">
+            <button id="showMoreBtn">Show more</button>
+        </div>
+    </section>
+
+    <script>
+        // Add or edit places here. cat: beach | historical | cultural | nature | spice
+        const places = [
+            { name: "Jozani Forest",    img: "picha/jozani.jpg",                 loc: "Central Unguja",    cat: "nature",     reviews: 534 },
+            { name: "Forodhani Garden", img: "picha/forodhani aerial view.jpg",  loc: "Stone Town",        cat: "cultural",   reviews: 534 },
+            { name: "Nungwi Beach",     img: "picha/nungwi.jpg",                 loc: "Northern Unguja",   cat: "beach",      reviews: 534 },
+            { name: "Stone Town",       img: "picha/stone town.jpg",             loc: "Urban West",        cat: "historical", reviews: 534 },
+            { name: "Mnemba Island",    img: "picha/mnemba.png",                 loc: "North-East Unguja", cat: "beach",      reviews: 534 },
+            { name: "Paje Beach",       img: "picha/paje.jpg",                   loc: "South-East Unguja", cat: "beach",      reviews: 534 }
+        ];
+
+        const list = document.getElementById("placeList");
+        const searchInput = document.getElementById("searchInput");
+        const showMoreWrap = document.getElementById("showMoreWrap");
+        const desktopQuery = window.matchMedia("(min-width: 1400px)");
+        const PAGE_SIZE = 10;          // kadi 10 = safu 2 za 5 kwa 5
+        let currentCat = "all";
+        let visibleCount = PAGE_SIZE;
+
+        function render() {
+            const q = searchInput.value.trim().toLowerCase();
+            const shown = places.filter(p =>
+                (currentCat === "all" || p.cat === currentCat) &&
+                p.name.toLowerCase().includes(q)
+            );
+
+            if (shown.length === 0) {
+                list.innerHTML = '<div class="noresult">No place found</div>';
+                showMoreWrap.style.display = "none";
+                return;
+            }
+
+            // Kwenye desktop tu: onyesha kadi 10 kwanza, kisha Show more
+            const isDesktop = desktopQuery.matches;
+            const toRender = isDesktop ? shown.slice(0, visibleCount) : shown;
+
+            list.innerHTML = toRender.map(p => `
+                <a class="place" href="p.detail.htm">
+                    <img src="${p.img}" alt="${p.name}" loading="lazy">
+                    <div class="place-info">
+                        <h1>${p.name}</h1>
+                        <p><i class="fa-solid fa-location-dot"></i>${p.loc}</p>
+                        <span class="rating">⭐⭐⭐ (${p.reviews})</span>
+                        <div class="detail">View Details →</div>
+                    </div>
+                </a>
+            `).join("");
+
+            showMoreWrap.style.display = (isDesktop && shown.length > visibleCount) ? "block" : "none";
+        }
+
+        document.getElementById("categories").addEventListener("click", function (e) {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            document.querySelectorAll("#categories button").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentCat = btn.dataset.cat;
+            visibleCount = PAGE_SIZE;
+            render();
+        });
+
+        searchInput.addEventListener("input", function () {
+            visibleCount = PAGE_SIZE;
+            render();
+        });
+        document.getElementById("searchBtn").addEventListener("click", function () {
+            visibleCount = PAGE_SIZE;
+            render();
+        });
+
+        document.getElementById("showMoreBtn").addEventListener("click", function () {
+            visibleCount += PAGE_SIZE;   // kila click inaongeza kadi 10 zaidi
+            render();
+        });
+
+        desktopQuery.addEventListener("change", render);
+
+        render();
+    </script>
+</body>
+</html>

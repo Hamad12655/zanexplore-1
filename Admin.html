@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+  <head> 
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>the inside zanzibar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+      integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+
+<style>
+
+  *{
+    margin: 0;
+  }
+  body{
+    background-color:aliceblue;
+  }
+.upper{
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  background-color: rgb(206, 201, 195);
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 15px;
+  height: 50px;
+}
+.upper input{
+  width: 500px;
+  height: 50px;
+  border-radius: 20px;
+  border: 1px solid white;
+}
+.upper p{
+  background-color: white;
+  position: relative;
+  left: 700px;
+  width: fit-content;
+  height: fit-content;
+  margin-top: 20px;
+  font-size: 20px;
+
+}
+.upper h3{
+  border: 1px solid white;
+  background-color: white;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-left: 750px;
+  position: relative;
+  bottom: 10px;
+}
+.upper h2{
+  font-weight: lighter;
+}
+.upper span{
+  position: relative;
+  right: 68px;
+  top: 5px;
+  font-weight: lighter;
+}
+.upper input{
+  position: relative;
+  left: 150px;
+  background-color: rgb(202, 217, 217);
+}
+.upper ::placeholder{
+  position: relative;
+  left: 30px;
+}
+.upper img{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+.upper h4{
+  margin-top: 10px;
+  background-color: rgb(9, 74, 69);
+  width: fit-content;
+  height: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+
+.darshbord{
+  border: 1px solid white;
+  color: white;
+  background-color: rgb(8, 8, 167);
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+
+
+.totalpart{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.totalpart h1{
+  color: blue;
+}
+.totalplace{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px blue;
+  width: 270px;
+  background-color: white;
+}
+.totaltour{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px blue;
+  width: 270px;
+  background-color: white;
+}
+.totalhotel{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px blue;
+  width: 270px;
+  background-color: white;
+}
+.trip{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px blue;
+  width: 270px;
+  background-color: white;
+}
+.user{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px blue;
+  width: 270px;
+  background-color: white;
+}
+
+
+
+
+
+.centerall{
+  display: flex;
+  margin-top: 30px;
+  gap: 20px;
+  justify-content:left;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.statistic{
+  width: 610px;
+  margin-left: 35px;
+  justify-content: center;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  height: 300px;
+  background-color: white;
+  box-shadow: 0 2px 3px black;
+}
+.statistic img{
+  background-size: cover;
+   width: 610px;
+   border-radius: 10px;
+   border-radius: 10px;
+  height: 270px;
+
+}
+.addition{
+  border: 1px solid white;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 2px 3px grey;
+}
+.addition h3{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: blue;
+  color: white;
+  margin-top: 10px;
+  height: 30px;
+  font-size: 20px;
+
+}
+.addition h4{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: green;
+  color: white;
+  margin-top: 10px;
+  height: 30px;
+  font-size: 20px;
+}
+.addition h5{
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: orange;
+  color: white;
+  margin-top: 10px;
+  height: 30px;
+  font-size: 20px;
+}
+.recently{
+  border: 1px solid white;
+  border-radius: 10px ;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 2px 3px;
+  width: 300px;
+}
+
+.system{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid white;
+  border-radius: 10px ;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 2px 3px;
+  width: 300px;
+}
+.system h2{
+  font-size: 15px;
+}
+.system h3{
+  font-size:15px;
+}
+.system h4{
+  font-size:15px;
+}
+.system span{
+  margin-left: 150px;
+}
+.system p{
+  background-color: rgb(124, 211, 145);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.underall{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+.overview{
+  width: 400px;
+  border: 1px solid white;
+  box-shadow: 0 2px 5px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  height: 140px;
+  box-shadow: 0 3px 10px blue;
+  background-color: white;
+}
+.center1{
+  width: 400px;
+  border: 1px solid white;
+  box-shadow: 0 2px 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 3px 10px blue;
+  background-color: white;
+}
+.location{
+  width: 400px;
+  border: 1px solid white;
+  box-shadow: 0 2px 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 3px 10px blue;
+  background-color: white;
+}
+.hakiba{
+  width: 400px;
+  border: 1px solid white;
+  box-shadow: 0 2px 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 3px 10px blue;
+  background-color: white;
+}
+.hakibaall{
+  display: flex;
+  padding: 10px;
+  gap: 40px;
+}
+.underall button{
+  background-color: blue;
+  border: 1px solid white;
+  color: white;
+  padding: 2px;
+  border-radius: 4px;
+  width:200px;
+  height: 30px;
+  margin-top: 20px;
+  position: relative;
+  left: 70px;
+}
+
+
+
+
+
+
+
+
+
+</style>
+  <body>
+
+  <section class="upperarea">
+    <div class="uperpart">
+
+      <div class="upper">
+        <h4 id="humbager"><i class="fa-solid fa-bars" style="color: rgb(251, 255, 255);"></i></h4>
+      <input type="search" id="search1" placeholder="Search enything">
+      <p><i class="fa-sharp fa-solid fa-bell" style="color: rgb(90, 111, 111);"></i></p>
+      <h3><img src="picha/admin.png" alt="image"></h3>
+      <h2>Hamad Omar Hamad <br><span>Admin</span></h2>
+      </div>
+
+    </div>
+
+
+    <div class="darshbord">
+      <h1>Welcome back to ZanExplore</h1>
+      <p>Manage tour tourism platform from here</p>
+    </div>
+
+    <section class="total">
+      <div class="totalpart">
+
+        <div class="user">
+          <h2>Active User</h2>
+          <h1>56</h1>
+          <p>Active User Using the system now</p>
+        </div>
+        <div class="totalplace">
+          <h2> <i class="fa-sharp fa-solid fa-location-dot" style="color: rgb(22, 23, 23);"></i>Total Place</h2>
+          <h1>155</h1>
+          <p>Accomondation,beaches and heritage nature</p>
+        </div>
+
+        <div class="totaltour">
+          <h2> <i class="fa-solid fa-solid fa-car" style="--fa-primary-color: rgb(8, 8, 8); --fa-secondary-color: rgb(90, 111, 111);"></i> Total Tour</h2>
+          <h1>79</h1>
+          <p>Verified Tour partner</p>
+        </div>
+
+        <div class="totalhotel">
+          <h2> <i class="fa-solid fa-hotel" style="color: rgb(22, 24, 24);"></i> Total Hotel</h2>
+          <h1>279</h1>
+          <p>Rooms and Accomondation</p>
+        </div>
+
+        <div class="trip">
+          <h2>Total trip</h2>
+          <h1>398</h1>
+          <p>Total trip this month</p>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+    <section class="center">
+      <div class="centerall">
+
+        <div class="statistic">
+          <h2>Platform Overview</h2>
+          <hr>
+          <img src="picha/statistic.jpg" alt="image">
+          <p></p>
+        </div>
+
+        <div class="addition">
+          <h2>Quick Actions</h2>
+          <hr>
+          <h3>Add new place</h3>
+          <h4>Add new tour</h4>
+          <h5>Add new Hotel</h5>
+        </div>
+
+        <div class="recently">
+          <h2>Recently Activity </h2>
+          <hr>
+        </div>
+
+        <div class="system">
+          <h2>Systeminfo </h2>
+          <hr>
+          <h2>Platform version<span>version 1.1</span></h2>
+          <h3>Database <span>Connected</span> </h3>
+          <h4>Server Status <span>Online</span> </h4>
+          <h5>Last Backup <span>1 dec 2026</span> </h5>
+          <p>Everything is running smoothly<br><span><br>Your platform is up to date and secure</span></p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="under">
+      <div class="underall">
+
+        <div class="location">
+          <p>location</p>
+          <hr>
+        </div>
+
+        <div class="center1">
+          <p>center</p>
+          <hr>
+        </div>
+
+        <div class="overview">
+          <p id="overview"> Activities Overview</p>
+          <hr>
+          <p></p>
+        </div>
+
+        <div class="hakiba">
+          <h3>Booking overview</h3>
+          <hr>
+          <div class="hakibaall">
+          <div class="overallplace">
+            <h2>245</h2>
+            <p>total place</p>
+          </div>
+
+          <div class="overalltour">
+            <h2>300</h2>
+            <p>Alltour booked</p>
+          </div>
+
+          <div class="overallhotel">
+            <h2>243</h2>
+            <p>Total booked hotel</p>
+          </div>
+          </div>
+          <button>view more detail</button>
+      </div>
+    </section>

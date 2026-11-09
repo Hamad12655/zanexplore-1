@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inside Zanzibar - Forodhani Garden</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: antiquewhite; font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+
+:root {
+    --teal: rgb(21, 122, 109);
+    --teal-deep: rgb(23, 85, 85);
+    --teal-card: rgb(28, 90, 90);
+    --brown: brown;
+}
+
+/* ========== NAVIGATION ========== */
+.navbar {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.navpart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.logo img { width: 80px; }
+.link { display: flex; align-items: center; gap: 10px 28px; }
+.link a {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+.link a:hover, .link a.active { background-color: var(--teal); color: white; }
+.navright { display: flex; align-items: center; gap: 16px; }
+.batan a { text-decoration: none; }
+.batan button {
+    color: white;
+    background-color: var(--teal-deep);
+    width: 100px;
+    height: 44px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.language { font-weight: bolder; color: var(--teal-deep); font-size: 14px; }
+.language select { padding: 4px; border-radius: 6px; }
+
+/* ========== PAGE LAYOUT ========== */
+.page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px 50px;
+}
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--teal-deep);
+    background-color: white;
+    padding: 9px 16px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: 0.25s ease;
+}
+.back:hover { background-color: var(--teal); color: white; }
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+}
+.main, .side { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.side { position: sticky; top: 90px; }
+
+/* ========== HERO IMAGE WITH TITLE ========== */
+.hero {
+    position: relative;
+    height: 470px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    background-color: var(--teal-card);
+}
+.hero img { width: 100%; height: 100%; object-fit: cover; }
+.hero-text {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 70px 26px 22px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.78));
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+.hero-text h1 { font-size: clamp(26px, 4vw, 42px); }
+.rating { margin-top: 6px; font-size: 16px; }
+.where {
+    border: 3px solid wheat;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 16px;
+    background-color: rgba(0,0,0,0.25);
+}
+.where i { margin-right: 6px; }
+
+/* ========== TAGS ========== */
+.tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.tags span {
+    background-color: var(--teal-deep);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 10px 22px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* ========== CARDS ========== */
+.card {
+    background-color: white;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 3px 10px grey;
+}
+.card h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: clamp(19px, 2vw, 24px);
+    margin-bottom: 14px;
+}
+.about h2 { color: var(--brown); font-weight: normal; }
+.about p { line-height: 1.7; color: #333; font-size: 16px; }
+
+.dark { background-color: var(--teal-deep); color: white; box-shadow: 0 7px 10px rgba(0,0,0,0.5); }
+.dark h2 i { font-size: 28px; }
+
+/* Things to do */
+.todo {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+}
+.todo li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: rgba(255,255,255,0.12);
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 16px;
+}
+.todo li i { font-size: 20px; width: 24px; text-align: center; }
+
+/* Map */
+.map { padding: 0; overflow: hidden; }
+.map h2 { padding: 22px 22px 0; }
+.map iframe { display: block; width: 100%; height: 360px; border: 0; }
+.map-link {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    font-weight: bold;
+    color: var(--teal-deep);
+    text-decoration: none;
+    background-color: #f3f3f3;
+}
+.map-link:hover { background-color: var(--teal); color: white; }
+
+/* Sidebar rows (hotels / tours) */
+.rows { display: flex; flex-direction: column; gap: 10px; }
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: rgba(255,255,255,0.12);
+    padding: 10px 10px 10px 14px;
+    border-radius: 12px;
+}
+.row span { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.row span i { width: 22px; text-align: center; }
+.row a {
+    flex-shrink: 0;
+    text-decoration: none;
+    text-align: center;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: 0.25s ease;
+}
+.row a:hover { background-color: wheat; }
+.viewall {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 12px;
+    transition: 0.25s ease;
+}
+.viewall:hover { background-color: wheat; }
+
+/* ========== TABLET ========== */
+@media (max-width: 1024px) {
+    .navpart { padding: 8px 16px; }
+    .link { gap: 6px 10px; }
+    .page { padding: 16px 16px 40px; }
+    .layout { grid-template-columns: 1fr; gap: 18px; }
+    .main, .side { gap: 18px; }
+    .side {
+        position: static;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        align-items: start;
+    }
+    .hero { height: 400px; }
+}
+
+/* ========== PHONE ========== */
+@media (max-width: 768px) {
+    .navpart { flex-wrap: wrap; padding: 6px 12px; gap: 6px 10px; }
+    .logo { order: 1; }
+    .logo img { width: 55px; }
+    .navright { order: 2; margin-left: auto; gap: 10px; }
+    .batan button { width: 80px; height: 36px; font-size: 14px; }
+    .language p { display: none; }
+    .link {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+    }
+    .link a { font-size: 13px; padding: 7px 8px; flex-shrink: 0; }
+
+    .page { padding: 12px 12px 30px; }
+    .back { margin-bottom: 10px; padding: 8px 14px; font-size: 14px; }
+
+    .hero { height: auto; aspect-ratio: 4 / 3; border-radius: 16px; }
+    .hero-text { padding: 50px 16px 14px; }
+    .rating { font-size: 14px; }
+    .where { font-size: 13px; padding: 6px 12px; border-width: 2px; }
+
+    .tags { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+    .tags span { flex-shrink: 0; font-size: 13px; padding: 8px 16px; }
+
+    .card { padding: 16px; border-radius: 14px; }
+    .about p { font-size: 15px; line-height: 1.6; }
+    .todo { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .todo li { font-size: 14px; padding: 10px; gap: 8px; }
+    .map h2 { padding: 16px 16px 0; }
+    .map iframe { height: 280px; }
+
+    .side { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 380px) {
+    .link a { font-size: 12px; padding: 6px 5px; }
+    .todo { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <section class="navbar">
+        <div class="navpart">
+            <div class="logo">
+                <img src="picha/logo.png" alt="logo of the system">
+            </div>
+
+            <div class="link">
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="place.html" class="active">Place</a>
+                <a href="Tour.html">Tour</a>
+                <a href="Hotel.html">Hotel</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="navright">
+                <div class="batan">
+                    <a href="login.html"><button>Sign up</button></a>
+                </div>
+                <div class="language">
+                    <p>language</p>
+                    <select name="language">
+                        <option value="English">English</option>
+                        <option value="France">French</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italian</option>
+                        <option value="Swahili">Swahili</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="page">
+        <a class="back" href="Place.html"><i class="fa-solid fa-arrow-left"></i> Back to places</a>
+
+        <div class="layout">
+
+            <!-- ===== MAIN COLUMN ===== -->
+            <div class="main">
+
+                <section class="hero">
+                    <img src="picha/old fort.jpg" alt="Forodhani Garden">
+                    <div class="hero-text">
+                        <div>
+                            <h1>Forodhani Garden</h1>
+                            <p class="rating">⭐⭐⭐ (127 reviews)</p>
+                        </div>
+                        <div class="where"><i class="fa-solid fa-location-dot"></i>Stone Town</div>
+                    </div>
+                </section>
+
+                <div class="tags">
+                    <span>Culture</span>
+                    <span>Relaxation</span>
+                    <span>Heritage</span>
+                    <span>Local Life</span>
+                </div>
+
+                <section class="card about">
+                    <h2>About</h2>
+                    <p>
+                        Forodhani Garden is a popular seafront park in Stone Town. Write a short
+                        description here: its history, what visitors can see, the best time to
+                        visit and what makes the place special.
+                    </p>
+                </section>
+
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-person-hiking"></i> Things to do</h2>
+                    <ul class="todo">
+                        <li><i class="fa-solid fa-utensils"></i> Local food</li>
+                        <li><i class="fa-solid fa-person-swimming"></i> Swimming</li>
+                        <li><i class="fa-solid fa-landmark"></i> History</li>
+                        <li><i class="fa-solid fa-camera"></i> Beautiful view</li>
+                        <li><i class="fa-solid fa-hand-holding-heart"></i> Welcome to Zanzibar</li>
+                    </ul>
+                </section>
+
+                <section class="card map">
+                    <h2><i class="fa-solid fa-map-location-dot" style="color: green;"></i> Location</h2>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1724.7186986041922!2d39.18904618985887!3d-6.160276165667279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185cd05a44950767%3A0xae0f919a8929495!2sForodhani%2C%20Zanzibar!5e1!3m2!1sen!2stz!4v1791299692206!5m2!1sen!2stz"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Map of Forodhani Garden"></iframe>
+                    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Forodhani+Gardens+Zanzibar" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+                    </a>
+                </section>
+            </div>
+
+            <!-- ===== SIDE COLUMN ===== -->
+            <aside class="side">
+
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-hotel"></i> Near hotels</h2>
+                    <div class="rows">
+                        <div class="row"><span><i class="fa-solid fa-bed"></i> Zuri Hotel</span><a href="hotel.detail.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-bed"></i> Tembo Zanzibar Hotel</span><a href="hotel.detail.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-bed"></i> Zanzibar Boutique Hotel</span><a href="hotel.detail.html">View</a></div>
+                    </div>
+                    <a class="viewall" href="Hotel.html">View all</a>
+                </section>
+
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-car"></i> Tours that visit here</h2>
+                    <div class="rows">
+                        <div class="row"><span><i class="fa-solid fa-route"></i> Afriluxe Adventure</span><a href="Tour.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-route"></i> Zan Tour Zanzibar</span><a href="Tour.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-route"></i> Palm Tour Zanzibar</span><a href="Tour.html">View</a></div>
+                    </div>
+                    <a class="viewall" href="Tour.html">View all</a>
+                </section>
+
+            </aside>
+        </div>
+    </div>
+</body>
+</html>

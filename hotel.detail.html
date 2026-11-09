@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inside Zanzibar - Hotel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: antiquewhite; font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+
+:root {
+    --teal: rgb(21, 122, 109);
+    --teal-deep: rgb(23, 85, 85);
+    --hotel: rgb(35, 124, 129);
+}
+
+/* ========== NAVIGATION ========== */
+.navbar {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.navpart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.logo img { width: 80px; }
+.link { display: flex; align-items: center; gap: 10px 28px; }
+.link a {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+.link a:hover, .link a.active { background-color: var(--teal); color: white; }
+.navright { display: flex; align-items: center; gap: 16px; }
+.batan a { text-decoration: none; }
+.batan button {
+    color: white;
+    background-color: var(--teal-deep);
+    width: 100px;
+    height: 44px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.language { font-weight: bolder; color: var(--teal-deep); font-size: 14px; }
+.language select { padding: 4px; border-radius: 6px; }
+
+/* ========== PAGE WRAPPER ========== */
+.page {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ========== GALLERY ========== */
+.gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 460px;
+}
+.gallery .mainimage { grid-row: 1 / 3; }
+.gallery div {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px grey;
+    background-color: white;
+}
+.gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.gallery .image1, .gallery .image2 { cursor: pointer; transition: transform 0.25s ease; }
+.gallery .image1:hover, .gallery .image2:hover { transform: scale(1.02); }
+
+/* ========== TITLE BANNER ========== */
+.about {
+    background-color: var(--hotel);
+    color: white;
+    padding: 20px 24px;
+    border-radius: 10px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.about h1 { font-size: clamp(24px, 3.5vw, 36px); }
+.about p { margin-top: 6px; font-size: 16px; }
+.about p i { margin-right: 6px; }
+.about h3 {
+    border: 3px solid white;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 16px;
+    box-shadow: 0 2px 10px rgba(255,255,255,0.5);
+}
+.about h3 i { margin-right: 6px; }
+
+/* ========== CONTENT GRID ========== */
+.content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    grid-template-areas:
+        "booking  abouthotel"
+        "services abouthotel"
+        "why      abouthotel";
+    gap: 24px;
+    align-items: start;
+}
+.booking      { grid-area: booking; }
+.extraservices{ grid-area: services; }
+.whychooseus  { grid-area: why; }
+.abouthotel   { grid-area: abouthotel; position: sticky; top: 90px; }
+
+.booking, .extraservices, .whychooseus, .abouthotel {
+    background-color: white;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 3px 10px grey;
+}
+.content h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+.content h2 i { font-size: 26px; color: blue; }
+.booking p { line-height: 1.6; color: #333; }
+
+.extraservices ul, .whychooseus ul { list-style: none; display: grid; gap: 10px; }
+.extraservices ul { grid-template-columns: repeat(2, 1fr); }
+.extraservices li, .whychooseus li { display: flex; align-items: center; gap: 10px; font-size: 16px; }
+.extraservices li i { color: var(--hotel); width: 22px; text-align: center; font-size: 18px; }
+.whychooseus li i { color: green; font-size: 20px; }
+
+/* ========== BOOK THIS HOTEL ON ========== */
+.bookrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+.bookrow:last-child { border-bottom: 0; }
+.bookrow span { font-weight: bold; font-size: 16px; }
+.bookrow a {
+    text-decoration: none;
+    text-align: center;
+    width: 100px;
+    padding: 10px 0;
+    border-radius: 8px;
+    background-color: var(--hotel);
+    color: white;
+    font-weight: bold;
+    transition: 0.25s ease;
+}
+.bookrow a:hover { background-color: var(--teal-deep); }
+
+/* ========== TABLET ========== */
+@media (max-width: 1024px) {
+    .navpart { padding: 8px 16px; }
+    .link { gap: 6px 10px; }
+    .page { padding: 16px; gap: 18px; }
+    .gallery { height: 360px; }
+    .content {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "booking"
+            "abouthotel"
+            "services"
+            "why";
+    }
+    .abouthotel { position: static; }
+}
+
+/* ========== PHONE ========== */
+@media (max-width: 768px) {
+    .navpart { flex-wrap: wrap; padding: 6px 12px; gap: 6px 10px; }
+    .logo { order: 1; }
+    .logo img { width: 55px; }
+    .navright { order: 2; margin-left: auto; gap: 10px; }
+    .batan button { width: 80px; height: 36px; font-size: 14px; }
+    .language p { display: none; }
+    .link {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+    }
+    .link a { font-size: 13px; padding: 7px 8px; flex-shrink: 0; }
+
+    .page { padding: 12px; gap: 14px; }
+
+    /* Gallery: big image on top, two small images side by side below */
+    .gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 110px;
+        height: auto;
+        gap: 8px;
+    }
+    .gallery .mainimage { grid-column: 1 / 3; grid-row: 1; aspect-ratio: 16 / 10; }
+    .gallery div { border-radius: 14px; }
+
+    .about { padding: 16px; border-radius: 8px 28px; }
+    .about h3 { font-size: 14px; padding: 6px 10px; }
+
+    .content { gap: 14px; }
+    .booking, .extraservices, .whychooseus, .abouthotel { padding: 16px; border-radius: 14px; }
+    .content h2 { font-size: 19px; }
+    .extraservices ul { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .extraservices li, .whychooseus li { font-size: 14px; }
+    .bookrow a { width: 90px; padding: 9px 0; }
+}
+
+@media (max-width: 380px) {
+    .link a { font-size: 12px; padding: 6px 5px; }
+    .extraservices ul { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <section class="navbar">
+        <div class="navpart">
+            <div class="logo">
+                <img src="picha/logo.png" alt="logo of the system">
+            </div>
+
+            <div class="link">
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="place.html">Place</a>
+                <a href="Tour.html">Tour</a>
+                <a href="Hotel.html" class="active">Hotel</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="navright">
+                <div class="batan">
+                    <a href="login.html"><button>Sign up</button></a>
+                </div>
+                <div class="language">
+                    <p>language</p>
+                    <select name="language">
+                        <option value="English">English</option>
+                        <option value="France">French</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italian</option>
+                        <option value="Swahili">Swahili</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="page">
+
+        <!-- GALLERY -->
+        <section class="gallery">
+            <div class="mainimage">
+                <img id="mainPic" src="picha/Melia zanzibar hotel.jpg" alt="Hotel main view">
+            </div>
+            <div class="image1">
+                <img src="picha/picture 1 (1).jpg" alt="pic 1">
+            </div>
+            <div class="image2">
+                <img src="picha/picture 2.jpg" alt="pic 2">
+            </div>
+        </section>
+
+        <!-- TITLE -->
+        <section class="about">
+            <div>
+                <h1>Zuri Zanzibar Hotel</h1>
+                <p><i class="fa-solid fa-location-dot"></i>123 Beach Road</p>
+            </div>
+            <h3><i class="fa-solid fa-map-pin"></i>Northern Unguja</h3>
+        </section>
+
+        <!-- CONTENT -->
+        <section class="content">
+
+            <div class="booking">
+                <h2><i class="fa-solid fa-hotel"></i> About Hotel</h2>
+                <p>Write a short description of the hotel here: its location, rooms, view and
+                   what makes the stay special for guests visiting Zanzibar.</p>
+            </div>
+
+            <div class="extraservices">
+                <h2><i class="fa-solid fa-handshake"></i> Extra services</h2>
+                <ul>
+                    <li><i class="fa-solid fa-wifi"></i> Free Wi-Fi</li>
+                    <li><i class="fa-solid fa-person-swimming"></i> Swimming pool</li>
+                    <li><i class="fa-solid fa-snowflake"></i> Air condition (AC)</li>
+                    <li><i class="fa-solid fa-square-parking"></i> Parking</li>
+                    <li><i class="fa-solid fa-utensils"></i> Restaurant</li>
+                </ul>
+            </div>
+
+            <div class="whychooseus">
+                <h2><i class="fa-solid fa-award"></i> Why choose us</h2>
+                <ul>
+                    <li><i class="fa-solid fa-circle-check"></i> Reason number one</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Reason number two</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Reason number three</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Reason number four</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Reason number five</li>
+                </ul>
+            </div>
+
+            <div class="abouthotel">
+                <h2><i class="fa-solid fa-calendar-check"></i> Book this hotel on</h2>
+                <div class="bookrow"><span>Booking.com</span><a href="#">Book</a></div>
+                <div class="bookrow"><span>Agoda.com</span><a href="#">Book</a></div>
+                <div class="bookrow"><span>Hotel site</span><a href="#">Book</a></div>
+                <div class="bookrow"><span>TripAdvisor.com</span><a href="#">Book</a></div>
+            </div>
+
+        </section>
+    </div>
+
+    <script>
+        // Click a small picture to show it in the big frame (swap)
+        const mainPic = document.getElementById("mainPic");
+        document.querySelectorAll(".image1 img, .image2 img").forEach(function (small) {
+            small.addEventListener("click", function () {
+                const temp = mainPic.src;
+                const tempAlt = mainPic.alt;
+                mainPic.src = small.src;
+                mainPic.alt = small.alt;
+                small.src = temp;
+                small.alt = tempAlt;
+            });
+        });
+    </script>
+</body>
+</html>

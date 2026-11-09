@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan my trip - The inside Zanzibar</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+:root{
+    --main: rgb(23,85,85);
+    --dark: rgb(14,67,68);
+    --mid: rgb(32,75,80);
+    --soft: rgb(206,215,216);
+    --mint: rgb(175,237,194);
+    --warn: rgb(255,226,200);
+    --text: #1d2b2b;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    color: var(--text);
+    background-color: var(--dark);
+    background-image: url("picha/place background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* ---------- NAVBAR ---------- */
+.navpart{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:20px; flex-wrap:wrap;
+    padding:8px 30px;
+    background:white;
+    border-bottom:1px solid black;
+    position:relative;
+}
+.logo img{width:80px; display:block;}
+.link{display:flex; gap:40px; flex-wrap:wrap;}
+.link a{
+    text-decoration:none; font-weight:bolder; font-size:20px; color:black;
+    padding:8px 12px; border:1px solid transparent; border-radius:15px;
+    transition:.2s;
+}
+.link a:hover, .link a.active{
+    background:var(--dark); color:white; border-color:white;
+}
+.right-nav{display:flex; align-items:center; gap:20px;}
+.batan button{
+    color:white; background:var(--main); width:100px; height:45px;
+    border-radius:20px; border:0; cursor:pointer; font-weight:bold;
+}
+.language{font-weight:bolder; color:var(--dark); font-size:14px;}
+.language select{padding:3px; border-radius:6px;}
+.menu-btn{
+    display:none; background:var(--main); color:white; border:0;
+    width:44px; height:44px; border-radius:10px; font-size:20px; cursor:pointer;
+}
+
+/* ---------- LAYOUT ---------- */
+.layout{
+    max-width:1350px; margin:20px auto; padding:0 15px;
+    display:grid; grid-template-columns:minmax(0,640px);
+    justify-content:center; gap:20px; align-items:start;
+}
+.layout.generated{grid-template-columns:410px minmax(0,1fr); justify-content:stretch;}
+
+.card{
+    background:white; border-radius:15px; padding:25px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+.formcard{transition:.4s;}
+.layout.generated .formcard{
+    position:sticky; top:10px; max-height:calc(100vh - 20px); overflow-y:auto;
+}
+.formcard h3{font-size:19px; margin-bottom:15px; color:var(--dark);}
+.field{margin-bottom:18px;}
+.field label{display:block; font-size:16px; margin-bottom:8px; color:var(--text);}
+.field label i{color:var(--dark); margin-right:6px;}
+.field input, .field select{
+    width:100%; height:42px; border-radius:10px; border:1px solid var(--soft);
+    background:var(--soft); padding:0 12px; font-size:15px;
+}
+.field input:focus, .field select:focus{outline:2px solid var(--main); background:white;}
+.row{display:flex; gap:8px;}
+.row select{width:95px; flex-shrink:0;}
+.chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
+.chip{
+    padding:6px 14px; border-radius:20px; border:1px solid var(--soft);
+    background:white; cursor:pointer; font-size:14px;
+}
+.chip.on{background:var(--main); color:white; border-color:var(--main);}
+.hint{font-size:12px; color:#667; margin-top:5px;}
+.error{font-size:13px; color:#c0392b; margin-top:5px; min-height:0;}
+
+.category{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+.category button{
+    border:1px solid var(--soft); background:white; border-radius:10px;
+    padding:10px 6px; cursor:pointer; font-size:13px; color:var(--text);
+    display:flex; flex-direction:column; align-items:center; gap:6px; transition:.2s;
+}
+.category button i{font-size:20px; color:var(--main);}
+.category button.selected{background:var(--mid); color:white; border-color:var(--mid);}
+.category button.selected i{color:white;}
+
+.generate{
+    width:100%; height:46px; border-radius:10px; border:0; cursor:pointer;
+    background:var(--main); color:white; font-size:16px; font-weight:bold;
+    margin-top:5px; transition:.2s;
+}
+.generate:hover{background:var(--dark);}
+.sample-note{font-size:12px; color:#667; margin-top:10px; text-align:center;}
+
+/* ---------- RESULTS ---------- */
+#results{display:none;}
+.layout.generated #results{display:block; animation:slideIn .6s ease;}
+@keyframes slideIn{from{opacity:0; transform:translateX(60px);} to{opacity:1; transform:none;}}
+
+.message{
+    border-radius:15px; padding:14px 16px; background:var(--mint);
+    display:flex; gap:12px; align-items:flex-start; margin-bottom:15px;
+}
+.message.warn{background:var(--warn);}
+.message i{font-size:26px; color:var(--dark); margin-top:2px;}
+.message b{display:block; margin-bottom:3px;}
+.message p{font-size:14px;}
+
+.summary{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:10px;
+    background:rgb(224,228,232); border-radius:15px; padding:12px; margin-bottom:15px;
+}
+.summary div{text-align:center; padding:6px 4px;}
+.summary small{display:block; font-size:12px; color:#556;}
+.summary strong{font-size:15px; color:var(--dark);}
+
+.two{display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;}
+.box{background:white; border:1px solid var(--soft); border-radius:15px; padding:15px;}
+.box h4{margin-bottom:10px; color:var(--dark); font-size:16px;}
+.bd-row{display:flex; justify-content:space-between; font-size:14px; padding:5px 0;}
+.bar{height:7px; background:var(--soft); border-radius:5px; margin-bottom:5px; overflow:hidden;}
+.bar span{display:block; height:100%; background:var(--main);}
+.bd-total{background:var(--soft); border-radius:8px; padding:8px; font-weight:bold; margin-top:8px; display:flex; justify-content:space-between;}
+.bd-left{display:flex; justify-content:space-between; margin-top:8px; font-weight:bold; font-size:14px;}
+.bd-left.neg{color:#c0392b;}
+
+.hotel-img{
+    height:120px; border-radius:10px; margin-bottom:10px; background-size:cover; background-position:center;
+    background-color:var(--mid);
+}
+.hotel-name{font-weight:bold;}
+.stars{color:#f5b301; font-size:13px; margin:3px 0;}
+.hotel-price{font-size:14px; margin-bottom:8px;}
+.hotel-btn{
+    display:block; text-align:center; text-decoration:none; padding:8px; border-radius:8px;
+    border:1px solid var(--main); color:var(--main); font-weight:bold; font-size:14px;
+}
+.hotel-btn:hover{background:var(--main); color:white;}
+
+.roadmap-title{margin:5px 0 12px; color:white; font-size:20px; text-shadow:0 1px 4px rgba(0,0,0,.6);}
+.roadmap-title i{margin-right:6px;}
+.day{
+    background:white; border-radius:15px; margin-bottom:15px; overflow:hidden;
+    display:grid; grid-template-columns:170px 1fr; box-shadow:0 4px 14px rgba(0,0,0,.2);
+}
+.day-img{background-size:cover; background-position:center; min-height:190px; position:relative;}
+.day-tag{
+    position:absolute; top:10px; left:10px; background:var(--main); color:white;
+    padding:5px 12px; border-radius:15px 10px 10px 10px; font-weight:bold; font-size:14px;
+}
+.day-body{padding:15px;}
+.day-head{display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:10px;}
+.day-head h5{font-size:17px; color:var(--dark);}
+.day-head p{font-size:13px; color:#556;}
+.est{background:var(--soft); border-radius:10px; padding:6px 10px; text-align:center; font-size:12px; flex-shrink:0;}
+.est b{display:block; font-size:15px; color:var(--dark);}
+.timeline{list-style:none;}
+.timeline li{display:flex; gap:10px; font-size:14px; padding:5px 0; border-bottom:1px dashed var(--soft); align-items:center;}
+.timeline li:last-child{border:0;}
+.timeline .t{width:62px; color:var(--main); font-weight:bold; flex-shrink:0; font-size:13px;}
+.timeline .x{flex:1;}
+.timeline .c{font-size:12px; color:#556; white-space:nowrap;}
+.timeline a{color:var(--main); margin-left:6px;}
+
+.actions{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:15px;}
+.actions button, .actions a{
+    background:white; border:1px solid var(--main); color:var(--main); border-radius:10px;
+    padding:11px 6px; cursor:pointer; font-weight:bold; font-size:14px; text-align:center;
+    text-decoration:none; display:block;
+}
+.actions button:hover, .actions a:hover{background:var(--main); color:white;}
+.actions .book{background:var(--main); color:white;}
+.actions .book:hover{background:var(--dark);}
+.mobile-only{display:none;}
+
+.cta{
+    border-radius:15px; padding:20px; color:white; margin-bottom:30px;
+    background:linear-gradient(90deg, rgba(14,67,68,.95), rgba(23,85,85,.7)), url("picha/place background.png");
+    background-size:cover; background-position:center;
+}
+.cta h3{margin-bottom:5px;}
+.cta a{
+    display:inline-block; margin-top:12px; background:white; color:var(--dark); text-decoration:none;
+    padding:9px 16px; border-radius:8px; font-weight:bold; font-size:14px;
+}
+
+.toast{
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(100px);
+    background:var(--dark); color:white; padding:12px 20px; border-radius:25px;
+    transition:.4s; z-index:99; font-size:14px; max-width:90%; text-align:center;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ---------- TABLET ---------- */
+@media (max-width:1100px){
+    .layout.generated{grid-template-columns:360px minmax(0,1fr);}
+    .summary{grid-template-columns:repeat(3,1fr);}
+    .link{gap:15px;}
+    .link a{font-size:17px;}
+}
+
+/* ---------- PHONE / SMALL ---------- */
+@media (max-width:900px){
+    .layout.generated{grid-template-columns:1fr;}
+    .layout.generated .formcard{display:none; position:static; max-height:none;}
+    .layout.generated.show-form .formcard{display:block;}
+    .layout.generated.show-form #results{display:none;}
+    .mobile-only{display:block;}
+}
+@media (max-width:760px){
+    .navpart{padding:8px 15px;}
+    .menu-btn{display:block;}
+    .link{
+        display:none; width:100%; flex-direction:column; gap:5px; order:5;
+    }
+    .link.open{display:flex;}
+    .link a{display:block; font-size:18px;}
+    .right-nav{gap:10px;}
+    .language{display:none;}
+    .batan button{width:85px; height:40px;}
+    .card{padding:18px;}
+    .category{grid-template-columns:repeat(2,1fr);}
+    .summary{grid-template-columns:repeat(2,1fr);}
+    .two{grid-template-columns:1fr;}
+    .day{grid-template-columns:1fr;}
+    .day-img{min-height:140px;}
+    .actions{grid-template-columns:repeat(2,1fr);}
+    .timeline li{flex-wrap:wrap;}
+    .timeline .c{width:100%; padding-left:72px;}
+}
+
+/* ---------- PRINT ---------- */
+@media print{
+    body{background:white;}
+    .navbar, .formcard, .actions, .cta, .roadmap-title i, .toast, .mobile-only{display:none !important;}
+    .layout{display:block;}
+    #results{display:block !important;}
+    .day{box-shadow:none; border:1px solid #999; page-break-inside:avoid;}
+    .roadmap-title{color:black; text-shadow:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<section class="navbar">
+    <div class="navpart">
+        <div class="logo"><img src="picha/logo.png" alt="logo of the system"></div>
+
+        <div class="link" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="plan my trip.html" class="active">Plan my trip</a>
+            <a href="place.html">Place</a>
+            <a href="Tour.html">Tour</a>
+            <a href="Hotel.html">Hotel</a>
+            <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="right-nav">
+            <div class="batan"><a href="login.html"><button>Sign up</button></a></div>
+            <div class="language">
+                <p>language</p>
+                <select name="language">
+                    <option value="English">English</option>
+                    <option value="France">French</option>
+                    <option value="Germany">German</option>
+                    <option value="Italy">Italian</option>
+                    <option value="Swahili">Swahili</option>
+                </select>
+            </div>
+            <button class="menu-btn" id="menuBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </div>
+</section>
+
+<!-- ================= MAIN ================= -->
+<main class="layout" id="layout">
+
+    <!-- ---------- FORM ---------- -->
+    <section class="card formcard" id="formCard">
+        <h3><i class="fa-solid fa-map"></i> Tell us about your trip</h3>
+
+        <div class="field">
+            <label><i class="fa-solid fa-coins"></i> 1. How much is your budget?</label>
+            <div class="row">
+                <input type="number" id="budget" min="0" placeholder="e.g 300000">
+                <select id="currency">
+                    <option value="TZS">TZS</option>
+                    <option value="USD">USD</option>
+                </select>
+            </div>
+            <div class="hint">Total budget for the whole trip (all people).</div>
+            <div class="error" id="errBudget"></div>
+        </div>
+
+        <div class="field">
+            <label><i class="fa-regular fa-calendar"></i> 2. How many days will your trip be?</label>
+            <input type="number" id="days" min="1" max="14" placeholder="Enter number of days">
+            <div class="chips" id="dayChips">
+                <span class="chip" data-d="1">1 Day</span>
+                <span class="chip" data-d="2">2 Days</span>
+                <span class="chip" data-d="3">3 Days</span>
+                <span class="chip" data-d="5">5 Days</span>
+                <span class="chip" data-d="7">7 Days</span>
+            </div>
+            <div class="error" id="errDays"></div>
+        </div>
+
+        <div class="field">
+            <label><i class="fa-solid fa-map-location-dot"></i> 3. What do you want to experience? <small>(choose one or more)</small></label>
+            <div class="category" id="categories">
+                <button type="button" data-c="beach"><i class="fa-solid fa-umbrella-beach"></i>Beach & relaxation</button>
+                <button type="button" data-c="culture"><i class="fa-solid fa-landmark"></i>Culture & history</button>
+                <button type="button" data-c="marine"><i class="fa-solid fa-sailboat"></i>Marine & ocean life</button>
+                <button type="button" data-c="nature"><i class="fa-solid fa-leaf"></i>Nature & wildlife</button>
+                <button type="button" data-c="adventure"><i class="fa-solid fa-person-hiking"></i>Sport & adventure</button>
+                <button type="button" data-c="local"><i class="fa-solid fa-house-chimney"></i>Local life</button>
+            </div>
+            <div class="hint">If you choose nothing, we mix everything for you.</div>
+        </div>
+
+        <div class="field">
+            <label><i class="fa-solid fa-user-group"></i> 4. Number of people</label>
+            <input type="number" id="people" min="1" max="20" placeholder="Enter number of people">
+            <div class="error" id="errPeople"></div>
+        </div>
+
+        <div class="field">
+            <label><i class="fa-solid fa-bed"></i> 5. Type of accommodation</label>
+            <select id="stay">
+                <option value="normal">Standard</option>
+                <option value="medium">Medium</option>
+                <option value="luxury">Luxury</option>
+            </select>
+        </div>
+
+        <button class="generate" id="genBtn" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate trip</button>
+        <p class="sample-note">Prices are estimates. Real prices depend on hotels, tours and transport.</p>
+    </section>
+
+    <!-- ---------- RESULTS ---------- -->
+    <section id="results"></section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================
+   DATA  (badilisha bei / majina / picha hapa)
+   Picha zote ziko kwenye folder la picha/
+   p = bei kwa mtu mmoja (TZS)
+   ===================================================== */
+const RATE = 2600;            // 1 USD = 2600 TZS (badilisha ukitaka)
+const FOOD = 10000;           // chakula kwa mtu kwa siku
+const TRANSPORT = 6000;       // usafiri kwa mtu kwa siku
+const PER_ROOM = 2;           // watu kwa chumba
+
+const HOTELS = {
+    normal:{label:"Standard", name:"Stone Town Budget Stay",    price:45000,  stars:2, area:"Stone Town, Zanzibar", img:"picha/hotel1.jpg"},
+    medium:{label:"Medium",   name:"Zanzibar Coast Hotel",      price:90000,  stars:3, area:"Stone Town, Zanzibar", img:"picha/hotel2.jpg"},
+    luxury:{label:"Luxury",   name:"Zanzibar Beach Resort",     price:220000, stars:5, area:"Nungwi, Zanzibar",     img:"picha/hotel3.jpg"}
+};
+
+const ACTS = [
+ // culture
+ {n:"Stone Town Walking Tour",       c:["culture","local"],     p:25000,  img:"stonetown.jpg",   d:"Explore the rich history and narrow streets of Stone Town."},
+ {n:"Old Fort & Forodhani Gardens",  c:["culture","local"],     p:0,      img:"fort.jpg",        d:"Free walk at the Old Fort and the sunset food market."},
+ {n:"House of Wonders & Museum",     c:["culture"],             p:15000,  img:"wonders.jpg",     d:"Visit the famous palace museum on the waterfront."},
+ {n:"Slave Market & Cathedral",      c:["culture"],             p:15000,  img:"slavemarket.jpg", d:"Learn the deep history of Zanzibar."},
+ {n:"Spice Farm Tour",               c:["culture","nature"],    p:35000,  img:"spice.jpg",       d:"Taste and smell fresh spices straight from the farm."},
+ // marine
+ {n:"Prison Island & Tortoises",     c:["marine","culture"],    p:45000,  img:"prison.jpg",      d:"Boat trip, giant tortoises and snorkeling."},
+ {n:"Sunset Dhow Cruise",            c:["marine","beach"],      p:40000,  img:"dhow.jpg",        d:"Relax on a traditional dhow at sunset."},
+ {n:"Dolphin Tour Kizimkazi",        c:["marine","nature"],     p:70000,  img:"dolphin.jpg",     d:"Swim and watch wild dolphins in the sea."},
+ {n:"Mnemba Atoll Snorkeling",       c:["marine","adventure"],  p:120000, img:"mnemba.jpg",      d:"Crystal clear water and colourful coral reefs."},
+ {n:"Safari Blue Sandbank Trip",     c:["marine","beach"],      p:130000, img:"safariblue.jpg",  d:"Full day sea trip with sandbank, snorkeling and seafood."},
+ // nature
+ {n:"Jozani Forest",                 c:["nature"],              p:40000,  img:"jozani.jpg",      d:"See the rare red colobus monkeys and mangrove boardwalk."},
+ {n:"Kuza Cave",                     c:["nature"],              p:25000,  img:"kuza.jpg",        d:"Swim in a natural cave with clear fresh water."},
+ {n:"Mangapwani Coral Cave",         c:["nature","culture"],    p:30000,  img:"mangapwani.jpg",  d:"Coral caves and a quiet beach on the west coast."},
+ // beach
+ {n:"Nungwi Beach",                  c:["beach"],               p:0,      img:"nungwi.jpg",      d:"White sand and calm turquoise water."},
+ {n:"Jambiani Beach",                c:["beach","local"],       p:0,      img:"jambiani.jpg",    d:"Quiet beach with local fishermen and seaweed farms."},
+ {n:"Paje Beach",                    c:["beach","adventure"],   p:0,      img:"paje.jpg",        d:"Relax and watch the kitesurfers."},
+ {n:"Kendwa Beach",                  c:["beach"],               p:10000,  img:"kendwa.jpg",      d:"Swim anytime, even at low tide, and enjoy the sunset."},
+ // adventure
+ {n:"Mangrove Kayaking",             c:["adventure","nature"],  p:60000,  img:"kayak.jpg",       d:"Paddle through peaceful mangrove channels."},
+ {n:"Cycling Village Tour",          c:["adventure","local"],   p:50000,  img:"cycling.jpg",     d:"Ride through villages and meet local people."},
+ {n:"Quad Biking",                   c:["adventure"],           p:120000, img:"quad.jpg",        d:"Off-road fun through villages and farms."},
+ {n:"Kitesurfing Lesson (Paje)",     c:["adventure","beach"],   p:150000, img:"kite.jpg",        d:"Learn kitesurfing at one of the best spots in Africa."},
+ {n:"Scuba Diving (Nungwi)",         c:["adventure","marine"],  p:150000, img:"diving.jpg",      d:"Discover the underwater world with certified guides."},
+ // local
+ {n:"Darajani Market",               c:["local","culture"],     p:0,      img:"darajani.jpg",    d:"Experience local food, fish and daily life."},
+ {n:"Swahili Cooking Class",         c:["local"],               p:60000,  img:"cooking.jpg",     d:"Cook and eat traditional Zanzibar dishes."},
+ {n:"Village Visit & Local Lunch",   c:["local"],               p:30000,  img:"village.jpg",     d:"Meet a local family and enjoy home cooking."},
+ {n:"Fishing with Locals",           c:["local","marine"],      p:40000,  img:"fishing.jpg",     d:"Go out on a boat with local fishermen."}
+];
+
+const CAT_COLORS = {
+    beach:"#1aa6b7", culture:"#8a5a2b", marine:"#0b6e99",
+    nature:"#2e7d32", adventure:"#c0572b", local:"#7b4a8c"
+};
+
+/* =====================================================
+   HELPERS
+   ===================================================== */
+const $ = id => document.getElementById(id);
+let selectedCats = new Set();
+let currentPlan = null;
+
+function fmt(n, cur){
+    cur = cur || (currentPlan ? currentPlan.cur : "TZS");
+    if(cur === "USD") return "$ " + Math.round(n / RATE).toLocaleString();
+    return "TZS " + Math.round(n).toLocaleString();
+}
+function toast(msg){
+    const t = $("toast"); t.textContent = msg; t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2800);
+}
+function bg(a){
+    const col = CAT_COLORS[a.c[0]];
+    return `background-image:url('picha/${a.img}'),linear-gradient(135deg,${col},var(--dark));`;
+}
+
+/* =====================================================
+   UI EVENTS
+   ===================================================== */
+$("menuBtn").onclick = () => $("navLinks").classList.toggle("open");
+
+document.querySelectorAll("#categories button").forEach(b => {
+    b.onclick = () => {
+        const c = b.dataset.c;
+        if(selectedCats.has(c)){ selectedCats.delete(c); b.classList.remove("selected"); }
+        else { selectedCats.add(c); b.classList.add("selected"); }
+    };
+});
+
+function syncChips(){
+    const v = $("days").value;
+    document.querySelectorAll("#dayChips .chip").forEach(ch => ch.classList.toggle("on", ch.dataset.d === v));
+}
+document.querySelectorAll("#dayChips .chip").forEach(ch => {
+    ch.onclick = () => { $("days").value = ch.dataset.d; syncChips(); };
+});
+$("days").addEventListener("input", syncChips);
+
+$("currency").addEventListener("change", () => { if(currentPlan){ currentPlan.cur = $("currency").value; render(currentPlan); } });
+$("genBtn").onclick = generate;
+
+/* =====================================================
+   VALIDATION
+   ===================================================== */
+function validate(){
+    let ok = true;
+    ["errBudget","errDays","errPeople"].forEach(i => $(i).textContent = "");
+    const cur = $("currency").value;
+    let budget = parseFloat($("budget").value);
+    const days = parseInt($("days").value);
+    const people = parseInt($("people").value);
+
+    if(!budget || budget <= 0){ $("errBudget").textContent = "Please enter your budget."; ok = false; }
+    if(!days || days < 1 || days > 14){ $("errDays").textContent = "Enter days between 1 and 14."; ok = false; }
+    if(!people || people < 1 || people > 20){ $("errPeople").textContent = "Enter people between 1 and 20."; ok = false; }
+    if(!ok) return null;
+
+    const budgetTZS = cur === "USD" ? budget * RATE : budget;
+    return {budget:budgetTZS, days, people, cur, stay:$("stay").value, cats:[...selectedCats]};
+}
+
+/* =====================================================
+   TRIP CALCULATION
+   ===================================================== */
+function buildPool(cats){
+    const keys = cats.length ? cats : Object.keys(CAT_COLORS);
+    const lists = keys.map(k => ACTS.filter(a => a.c.includes(k)));
+    const pool = [], seen = new Set();
+    const max = Math.max(...lists.map(l => l.length));
+    for(let i = 0; i < max; i++){
+        lists.forEach(l => {
+            if(l[i] && !seen.has(l[i].n)){ seen.add(l[i].n); pool.push(l[i]); }
+        });
+    }
+    return pool;
+}
+
+function calculate(inp){
+    const {budget, days, people, stay, cats} = inp;
+    const hotel = HOTELS[stay];
+    const rooms = Math.ceil(people / PER_ROOM);
+    const nights = Math.max(days - 1, 0);
+
+    const accommodation = hotel.price * rooms * nights;
+    const food = FOOD * people * days;
+    const transport = TRANSPORT * people * days;
+    const fixed = accommodation + food + transport;
+
+    let remaining = Math.max(budget - fixed, 0);
+    const pool = buildPool(cats);
+    const used = new Set();
+    const plan = [];
+    let actTotal = 0;
+
+    for(let i = 0; i < days; i++){
+        const cap = remaining / (days - i);
+        const afford = (a, c) => a.p * people <= c;
+
+        // main activity
+        let main = pool.find(a => !used.has(a.n) && afford(a, cap));
+        if(!main){
+            const rest = ACTS.filter(a => !used.has(a.n)).sort((x,y) => x.p - y.p);
+            main = rest[0];
+        }
+        used.add(main.n);
+        let spent = main.p * people;
+
+        // second activity (afternoon)
+        const cap2 = Math.max(cap - spent, 0);
+        let second = pool.find(a => !used.has(a.n) && afford(a, cap2)) ||
+                     ACTS.find(a => !used.has(a.n) && a.p === 0);
+        if(second && second.p * people <= cap2){ used.add(second.n); spent += second.p * people; }
+        else if(second && second.p === 0){ used.add(second.n); }
+        else second = null;
+
+        remaining = Math.max(remaining - spent, 0);
+        actTotal += spent;
+
+        const dayCost = spent + (FOOD + TRANSPORT) * people + (i < days - 1 ? hotel.price * rooms : 0);
+        plan.push({day:i+1, main, second, spent, dayCost});
+    }
+
+    const total = accommodation + actTotal + food + transport;
+    return {
+        ...inp, hotel, rooms, nights, plan,
+        accommodation, activities:actTotal, food, transport,
+        foodTransport: food + transport,
+        total, left: budget - total, minNeeded: fixed
+    };
+}
+
+/* =====================================================
+   RENDER RESULTS
+   ===================================================== */
+function render(p){
+    const over = p.left < 0;
+    const catNames = p.cats.length ? p.cats.map(c => c[0].toUpperCase() + c.slice(1)).join(", ") : "Mixed";
+    const pct = v => Math.min(100, Math.round(v / p.total * 100)) || 0;
+
+    let html = `
+    <button class="generate mobile-only" id="editBtn" style="margin-bottom:12px;background:white;color:var(--dark);border:1px solid var(--main)">
+        <i class="fa-solid fa-pen"></i> Edit trip details
+    </button>
+
+    <div class="message ${over ? "warn" : ""}">
+        <i class="fa-solid ${over ? "fa-triangle-exclamation" : "fa-circle-check"}"></i>
+        <div>
+            <b>${over ? "Your budget is a bit low" : "Your trip plan is ready!"}</b>
+            <p>${over
+                ? `We made the cheapest possible plan, but it is about <b>${fmt(-p.left)}</b> above your budget. Basic costs (hotel, food, transport) alone are about <b>${fmt(p.minNeeded)}</b>. Try fewer days, fewer people or Standard accommodation.`
+                : `Here is your personalized ${p.days}-day itinerary for Zanzibar based on your budget and preferences.`}</p>
+        </div>
+    </div>
+
+    <div class="summary">
+        <div><small>Budget</small><strong>${fmt(p.budget)}</strong></div>
+        <div><small>Days</small><strong>${p.days} ${p.days > 1 ? "Days" : "Day"}</strong></div>
+        <div><small>People</small><strong>${p.people}</strong></div>
+        <div><small>Category</small><strong>${catNames}</strong></div>
+        <div><small>Stay</small><strong>${p.hotel.label}</strong></div>
+    </div>
+
+    <div class="two">
+        <div class="box">
+            <h4><i class="fa-solid fa-wallet"></i> Budget Breakdown</h4>
+            ${[["Accommodation", p.accommodation],["Activities & Tours", p.activities],["Food", p.food],["Transport", p.transport]].map(r => `
+                <div class="bd-row"><span>${r[0]}</span><b>${fmt(r[1])}</b></div>
+                <div class="bar"><span style="width:${pct(r[1])}%"></span></div>`).join("")}
+            <div class="bd-total"><span>Total Estimated</span><span>${fmt(p.total)}</span></div>
+            <div class="bd-left ${over ? "neg" : ""}"><span>${over ? "Over budget" : "Remaining Budget"}</span><span>${fmt(Math.abs(p.left))}</span></div>
+        </div>
+
+        <div class="box">
+            <h4><i class="fa-solid fa-hotel"></i> Recommended Hotel</h4>
+            <div class="hotel-img" style="background-image:url('${p.hotel.img}')"></div>
+            <div class="hotel-name">${p.hotel.name}</div>
+            <div class="stars">${"<i class='fa-solid fa-star'></i>".repeat(p.hotel.stars)}</div>
+            <div class="hotel-price">${fmt(p.hotel.price)} / night / room<br>
+                <small>${p.rooms} room${p.rooms > 1 ? "s" : ""} x ${p.nights} night${p.nights !== 1 ? "s" : ""}</small></div>
+            <div class="hint" style="margin-bottom:8px"><i class="fa-solid fa-location-dot"></i> ${p.hotel.area}</div>
+            <a class="hotel-btn" href="Hotel.html">View Hotels</a>
+        </div>
+    </div>
+
+    <h3 class="roadmap-title"><i class="fa-solid fa-map"></i> Your Travel Roadmap</h3>`;
+
+    p.plan.forEach((d, idx) => {
+        const first = idx === 0, last = idx === p.plan.length - 1 && p.days > 1;
+        const mapLink = a => `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a.n + " Zanzibar")}" target="_blank" rel="noopener" title="View on map"><i class="fa-solid fa-location-dot"></i></a>`;
+        const actCost = a => a.p === 0 ? "Free" : fmt(a.p * p.people);
+
+        html += `
+        <div class="day">
+            <div class="day-img" style="${bg(d.main)}"><span class="day-tag"><i class="fa-regular fa-clock"></i> Day ${d.day}</span></div>
+            <div class="day-body">
+                <div class="day-head">
+                    <div><h5>${d.main.n}</h5><p>${d.main.d}</p></div>
+                    <div class="est">Estimated cost<b>${fmt(d.dayCost)}</b></div>
+                </div>
+                <ul class="timeline">
+                    <li><span class="t">08:00</span><span class="x">${first ? "Arrival & hotel check-in (" + p.hotel.label + " Hotel)" : "Breakfast at the hotel"}</span><span class="c"></span></li>
+                    <li><span class="t">10:00</span><span class="x"><b>${d.main.n}</b>${mapLink(d.main)}</span><span class="c">${actCost(d.main)}</span></li>
+                    <li><span class="t">13:00</span><span class="x">Lunch at a local restaurant</span><span class="c">${fmt(FOOD * p.people * 0.5)}</span></li>
+                    <li><span class="t">15:30</span><span class="x">${d.second ? "<b>" + d.second.n + "</b>" + mapLink(d.second) : "Free time, rest or shopping"}</span><span class="c">${d.second ? actCost(d.second) : ""}</span></li>
+                    <li><span class="t">${last ? "18:00" : "19:00"}</span><span class="x">${last ? "Dinner, hotel check-out & departure" : "Dinner & back to hotel"}</span><span class="c">${fmt(FOOD * p.people * 0.5)}</span></li>
+                </ul>
+            </div>
+        </div>`;
+    });
+
+    html += `
+    <div class="actions">
+        <button id="saveBtn"><i class="fa-regular fa-heart"></i> Save My Trip</button>
+        <button id="dlBtn"><i class="fa-solid fa-download"></i> Download</button>
+        <button id="printBtn"><i class="fa-solid fa-print"></i> Print / PDF</button>
+        <a class="book" href="Contact.html"><i class="fa-regular fa-calendar-check"></i> Book Now</a>
+    </div>
+
+    <div class="cta">
+        <h3>Ready for your Zanzibar adventure?</h3>
+        <p>Book your trip now and make unforgettable memories.</p>
+        <a href="Tour.html">Explore More Hotels & Tours <i class="fa-solid fa-arrow-right"></i></a>
+    </div>`;
+
+    $("results").innerHTML = html;
+
+    $("saveBtn").onclick = saveTrip;
+    $("dlBtn").onclick = downloadTrip;
+    $("printBtn").onclick = () => window.print();
+    const eb = $("editBtn");
+    if(eb) eb.onclick = () => {
+        $("layout").classList.add("show-form");
+        window.scrollTo({top:0, behavior:"smooth"});
+    };
+}
+
+/* =====================================================
+   GENERATE
+   ===================================================== */
+function generate(){
+    const inp = validate();
+    if(!inp) { toast("Please fix the highlighted fields"); return; }
+    currentPlan = calculate(inp);
+    render(currentPlan);
+    $("layout").classList.add("generated");
+    $("layout").classList.remove("show-form");
+    $("genBtn").innerHTML = '<i class="fa-solid fa-rotate"></i> Update my trip';
+    setTimeout(() => $("results").scrollIntoView({behavior:"smooth", block:"start"}), 100);
+}
+
+/* =====================================================
+   SAVE / LOAD / DOWNLOAD
+   ===================================================== */
+function saveTrip(){
+    if(!currentPlan) return;
+    const p = currentPlan;
+    try{
+        localStorage.setItem("zanzibarTrip", JSON.stringify({
+            budget:p.budget, days:p.days, people:p.people, cur:p.cur, stay:p.stay, cats:p.cats
+        }));
+        toast("Trip saved on this device!");
+    }catch(e){ toast("Could not save the trip."); }
+}
+
+function loadSaved(){
+    try{
+        const s = JSON.parse(localStorage.getItem("zanzibarTrip"));
+        if(!s) return;
+        $("currency").value = s.cur;
+        $("budget").value = s.cur === "USD" ? Math.round(s.budget / RATE) : s.budget;
+        $("days").value = s.days;
+        $("people").value = s.people;
+        $("stay").value = s.stay;
+        s.cats.forEach(c => {
+            selectedCats.add(c);
+            const b = document.querySelector(`#categories button[data-c="${c}"]`);
+            if(b) b.classList.add("selected");
+        });
+        syncChips();
+        toast("Your saved trip was loaded. Press Update my trip.");
+    }catch(e){}
+}
+
+function downloadTrip(){
+    const p = currentPlan; if(!p) return;
+    let t = "THE INSIDE ZANZIBAR - TRIP PLAN\n==============================\n";
+    t += `Budget: ${fmt(p.budget)} | Days: ${p.days} | People: ${p.people} | Stay: ${p.hotel.label}\n`;
+    t += `Hotel: ${p.hotel.name} (${fmt(p.hotel.price)}/night/room, ${p.rooms} room(s), ${p.nights} night(s))\n\n`;
+    p.plan.forEach(d => {
+        t += `DAY ${d.day}  (Estimate ${fmt(d.dayCost)})\n`;
+        t += `  08:00  ${d.day === 1 ? "Arrival & hotel check-in" : "Breakfast at the hotel"}\n`;
+        t += `  10:00  ${d.main.n}\n  13:00  Lunch at a local restaurant\n`;
+        t += `  15:30  ${d.second ? d.second.n : "Free time"}\n  19:00  Dinner\n\n`;
+    });
+    t += `Accommodation: ${fmt(p.accommodation)}\nActivities & Tours: ${fmt(p.activities)}\nFood: ${fmt(p.food)}\nTransport: ${fmt(p.transport)}\n`;
+    t += `TOTAL: ${fmt(p.total)}\n${p.left >= 0 ? "Remaining" : "Over budget"}: ${fmt(Math.abs(p.left))}\n`;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([t], {type:"text/plain"}));
+    a.download = "zanzibar-trip-plan.txt";
+    a.click();
+    toast("Itinerary downloaded");
+}
+
+loadSaved();
+</script>
+</body>
+</html>

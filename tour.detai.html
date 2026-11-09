@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inside Zanzibar - Tour Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: antiquewhite; font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+button, input, select { font-family: inherit; }
+
+:root {
+    --teal: rgb(21, 122, 109);
+    --teal-deep: rgb(23, 85, 85);
+    --teal-card: rgb(28, 90, 90);
+    --orange: rgb(241, 118, 23);
+    --brown: brown;
+}
+
+/* ========== NAVIGATION ========== */
+.navbar {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.navpart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.logo img { width: 80px; }
+.link { display: flex; align-items: center; gap: 10px 28px; }
+.link a {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+.link a:hover, .link a.active { background-color: var(--teal); color: white; }
+.navright { display: flex; align-items: center; gap: 16px; }
+.batan a { text-decoration: none; }
+.batan button {
+    color: white;
+    background-color: var(--teal-deep);
+    width: 100px;
+    height: 44px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.language { font-weight: bolder; color: var(--teal-deep); font-size: 14px; }
+.language select { padding: 4px; border-radius: 6px; }
+
+/* ========== PAGE LAYOUT ========== */
+.page { max-width: 1400px; margin: 0 auto; padding: 20px 24px 50px; }
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--teal-deep);
+    background-color: white;
+    padding: 9px 16px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: 0.25s ease;
+}
+.back:hover { background-color: var(--teal); color: white; }
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+}
+.main, .side { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.side { position: sticky; top: 90px; }
+
+/* ========== GALLERY ========== */
+.gallery { display: flex; flex-direction: column; gap: 10px; }
+.hero {
+    position: relative;
+    height: 460px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, var(--teal-deep), var(--teal));
+}
+.hero img { width: 100%; height: 100%; object-fit: cover; }
+.hero-text {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 80px 26px 22px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+.hero-text h1 { font-size: clamp(26px, 4vw, 42px); }
+.rating { margin-top: 6px; font-size: 16px; }
+.where {
+    border: 3px solid wheat;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 16px;
+    background-color: rgba(0,0,0,0.25);
+}
+.where i { margin-right: 6px; }
+.thumbs { display: flex; gap: 10px; }
+.thumbs button {
+    flex: 1;
+    max-width: 150px;
+    height: 80px;
+    border: 3px solid white;
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+    background-color: var(--teal-card);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    opacity: 0.8;
+    transition: 0.2s ease;
+}
+.thumbs button:hover { opacity: 1; }
+.thumbs button.on { border-color: var(--orange); opacity: 1; }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ========== TAGS ========== */
+.tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.tags span {
+    background-color: var(--teal-deep);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 10px 22px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* ========== QUICK FACTS ========== */
+.facts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+.fact {
+    background-color: white;
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+.fact i { font-size: 26px; color: var(--teal); }
+.fact small { display: block; margin-top: 8px; font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+.fact b { display: block; margin-top: 3px; font-size: 16px; color: var(--teal-deep); }
+
+/* ========== CARDS ========== */
+.card {
+    background-color: white;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 3px 10px grey;
+}
+.card h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: clamp(19px, 2vw, 24px);
+    margin-bottom: 14px;
+}
+.card h2 i { color: var(--teal); }
+.about h2 { color: var(--brown); font-weight: normal; }
+.about p { line-height: 1.7; color: #333; font-size: 16px; }
+.about p + p { margin-top: 10px; }
+
+.dark { background-color: var(--teal-deep); color: white; box-shadow: 0 7px 10px rgba(0,0,0,0.5); }
+.dark h2 i { color: white; }
+
+/* Highlights */
+.grid2 {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+}
+.grid2 li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: rgba(255,255,255,0.12);
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 16px;
+}
+.grid2 li i { font-size: 20px; width: 24px; text-align: center; }
+
+/* Itinerary (opens and closes without JavaScript) */
+.step {
+    border: 1px solid #e3e3e3;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.step:last-child { margin-bottom: 0; }
+.step summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    font-weight: bold;
+    background-color: #f7f7f7;
+}
+.step summary::-webkit-details-marker { display: none; }
+.step summary .time {
+    flex-shrink: 0;
+    background-color: var(--teal-deep);
+    color: white;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+.step summary .arrow { margin-left: auto; transition: transform 0.25s ease; color: #777; }
+.step[open] summary { background-color: #e8f3f1; }
+.step[open] summary .arrow { transform: rotate(180deg); }
+.step p { padding: 14px 16px 16px; line-height: 1.6; color: #444; }
+
+/* Included / not included */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.list { list-style: none; display: grid; gap: 12px; }
+.list li { display: flex; align-items: flex-start; gap: 10px; font-size: 16px; line-height: 1.4; }
+.list.yes li i { color: green; margin-top: 2px; }
+.list.no li i { color: crimson; margin-top: 2px; }
+.two h3 { font-size: 18px; margin-bottom: 12px; }
+
+/* Map */
+.map { padding: 0; overflow: hidden; }
+.map h2 { padding: 22px 22px 0; }
+.map iframe { display: block; width: 100%; height: 340px; border: 0; }
+.map-link {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    font-weight: bold;
+    color: var(--teal-deep);
+    text-decoration: none;
+    background-color: #f3f3f3;
+}
+.map-link:hover { background-color: var(--teal); color: white; }
+
+/* ========== BOOKING CARD (side) ========== */
+.bookbox {
+    background-color: white;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    border-top: 6px solid var(--orange);
+}
+.fromprice { color: #555; font-size: 14px; }
+.fromprice b { font-size: 34px; color: var(--teal-deep); }
+.bookbox .sub { font-size: 13px; color: #666; margin-bottom: 14px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 6px; }
+.field input[type="date"], .field input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 12px;
+    background-color: #fafafa;
+}
+.field input:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(21,122,109,0.2);
+}
+.stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #bbb;
+    border-radius: 12px;
+    background-color: #fafafa;
+    padding: 6px;
+}
+.stepper button {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background-color: var(--teal-deep);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.stepper button:hover { background-color: var(--teal); }
+.stepper span { font-size: 18px; font-weight: bold; }
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    margin: 4px 0 12px;
+    border-top: 1px dashed #bbb;
+    font-weight: bold;
+}
+.total b { font-size: 26px; color: var(--teal-deep); }
+.bookbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background-color: #1fa855;
+    border: 0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+.bookbtn:hover { background-color: #168a45; }
+.err { display: none; margin-top: 10px; color: crimson; font-weight: bold; font-size: 14px; }
+.err.show { display: block; }
+.safe { margin-top: 12px; font-size: 13px; color: #555; text-align: center; }
+.safe i { color: green; margin-right: 5px; }
+
+/* Operator */
+.operator { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.operator .av {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+.operator b { display: block; font-size: 17px; }
+.operator small { color: #cfe; }
+.contactrow { display: flex; gap: 10px; }
+.contactrow a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 11px 6px;
+    border-radius: 10px;
+    transition: 0.25s ease;
+}
+.contactrow a:hover { background-color: wheat; }
+
+/* Related tours / hotels rows */
+.rows { display: flex; flex-direction: column; gap: 10px; }
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: rgba(255,255,255,0.12);
+    padding: 10px 10px 10px 14px;
+    border-radius: 12px;
+}
+.row span { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.row span i { width: 22px; text-align: center; }
+.row a {
+    flex-shrink: 0;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: 0.25s ease;
+}
+.row a:hover { background-color: wheat; }
+.viewall {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 12px;
+    transition: 0.25s ease;
+}
+.viewall:hover { background-color: wheat; }
+
+/* Mobile bottom bar */
+.mbar { display: none; }
+
+/* ========== LAPTOP ========== */
+@media (max-width: 1200px) {
+    .layout { grid-template-columns: 1fr 340px; gap: 18px; }
+    .facts { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ========== TABLET ========== */
+@media (max-width: 1024px) {
+    .navpart { padding: 8px 16px; }
+    .link { gap: 6px 10px; }
+    .page { padding: 16px 16px 40px; }
+    .layout { grid-template-columns: 1fr; gap: 18px; }
+    .main, .side { gap: 18px; }
+    .side { position: static; display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
+    .side .bookbox { grid-column: 1 / -1; }
+    .hero { height: 400px; }
+    .facts { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ========== PHONE ========== */
+@media (max-width: 768px) {
+    .navpart { flex-wrap: wrap; padding: 6px 12px; gap: 6px 10px; }
+    .logo { order: 1; }
+    .logo img { width: 55px; }
+    .navright { order: 2; margin-left: auto; gap: 10px; }
+    .batan button { width: 80px; height: 36px; font-size: 14px; }
+    .language p { display: none; }
+    .link {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+    }
+    .link a { font-size: 13px; padding: 7px 8px; flex-shrink: 0; }
+
+    body { padding-bottom: 76px; }
+    .page { padding: 12px 12px 30px; }
+    .back { margin-bottom: 10px; padding: 8px 14px; font-size: 14px; }
+
+    .hero { height: auto; aspect-ratio: 4 / 3; border-radius: 16px; }
+    .hero-text { padding: 50px 16px 14px; }
+    .rating { font-size: 14px; }
+    .where { font-size: 13px; padding: 6px 12px; border-width: 2px; }
+    .thumbs button { height: 60px; border-width: 2px; border-radius: 10px; }
+
+    .tags { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+    .tags span { flex-shrink: 0; font-size: 13px; padding: 8px 16px; }
+
+    .facts { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .fact { padding: 14px 8px; }
+    .fact i { font-size: 22px; }
+    .fact b { font-size: 15px; }
+
+    .card { padding: 16px; border-radius: 14px; }
+    .about p { font-size: 15px; line-height: 1.6; }
+    .grid2 { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .grid2 li { font-size: 14px; padding: 10px; gap: 8px; }
+    .two { grid-template-columns: 1fr; gap: 18px; }
+    .step summary { padding: 12px; gap: 10px; font-size: 15px; }
+    .map h2 { padding: 16px 16px 0; }
+    .map iframe { height: 270px; }
+
+    .side { grid-template-columns: 1fr; }
+    .bookbox { padding: 18px; }
+
+    /* Fixed bottom bar with price and book button */
+    .mbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        z-index: 95;
+        background-color: white;
+        padding: 10px 14px;
+        box-shadow: 0 -4px 14px rgba(0,0,0,0.25);
+    }
+    .mbar small { display: block; font-size: 12px; color: #666; }
+    .mbar b { font-size: 22px; color: var(--teal-deep); }
+    .mbar a {
+        text-decoration: none;
+        background-color: var(--orange);
+        color: white;
+        font-weight: bold;
+        padding: 12px 26px;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .link a { font-size: 12px; padding: 6px 5px; }
+    .grid2 { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <section class="navbar">
+        <div class="navpart">
+            <div class="logo">
+                <img src="picha/logo.png" alt="logo of the system">
+            </div>
+
+            <div class="link">
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="place.html">Place</a>
+                <a href="Tour.html" class="active">Tour</a>
+                <a href="Hotel.html">Hotel</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="navright">
+                <div class="batan">
+                    <a href="login.html"><button>Sign up</button></a>
+                </div>
+                <div class="language">
+                    <p>language</p>
+                    <select name="language">
+                        <option value="English">English</option>
+                        <option value="France">French</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italian</option>
+                        <option value="Swahili">Swahili</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="page">
+        <a class="back" href="Tour.html"><i class="fa-solid fa-arrow-left"></i> Back to tours</a>
+
+        <div class="layout">
+
+            <!-- ================= MAIN COLUMN ================= -->
+            <div class="main">
+
+                <!-- Gallery -->
+                <section class="gallery">
+                    <div class="hero">
+                        <img id="mainPic" src="picha/safari blue.jpg" alt="Safari Blue Tour">
+                        <div class="hero-text">
+                            <div>
+                                <h1 id="tourName">Safari Blue Tour</h1>
+                                <p class="rating">⭐⭐⭐⭐⭐ 4.9 (534 reviews)</p>
+                            </div>
+                            <div class="where"><i class="fa-solid fa-location-dot"></i>South Unguja</div>
+                        </div>
+                    </div>
+                    <div class="thumbs" id="thumbs">
+                        <button class="on" data-src="picha/safari blue.jpg"><img src="picha/safari blue.jpg" alt="Photo 1"></button>
+                        <button data-src="picha/mnemba.png"><img src="picha/mnemba.png" alt="Photo 2"></button>
+                        <button data-src="picha/jozani.jpg"><img src="picha/jozani.jpg" alt="Photo 3"></button>
+                        <button data-src="picha/paje.jpg"><img src="picha/paje.jpg" alt="Photo 4"></button>
+                    </div>
+                </section>
+
+                <!-- Tags -->
+                <div class="tags">
+                    <span>Beach</span>
+                    <span>Snorkeling</span>
+                    <span>Sailing</span>
+                    <span>Seafood</span>
+                </div>
+
+                <!-- Quick facts -->
+                <section class="facts">
+                    <div class="fact"><i class="fa-regular fa-clock"></i><small>Duration</small><b>8 hours</b></div>
+                    <div class="fact"><i class="fa-solid fa-users"></i><small>Group size</small><b>Up to 20</b></div>
+                    <div class="fact"><i class="fa-solid fa-language"></i><small>Languages</small><b>English, Swahili</b></div>
+                    <div class="fact"><i class="fa-solid fa-van-shuttle"></i><small>Pickup</small><b>Hotel pickup</b></div>
+                </section>
+
+                <!-- About -->
+                <section class="card about">
+                    <h2>About this tour</h2>
+                    <p>
+                        Write a short description of the tour here: where it goes, what guests will
+                        see and do, and what makes it special. This text is an example only.
+                    </p>
+                    <p>
+                        Add a second paragraph for extra details such as the best season, the
+                        meeting point or tips for first-time visitors.
+                    </p>
+                </section>
+
+                <!-- Highlights -->
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-star"></i> Tour highlights</h2>
+                    <ul class="grid2">
+                        <li><i class="fa-solid fa-sailboat"></i> Traditional dhow sailing</li>
+                        <li><i class="fa-solid fa-mask-snorkel"></i> Snorkeling</li>
+                        <li><i class="fa-solid fa-fish"></i> Fresh seafood lunch</li>
+                        <li><i class="fa-solid fa-umbrella-beach"></i> Sandbank stop</li>
+                        <li><i class="fa-solid fa-camera"></i> Great photo spots</li>
+                        <li><i class="fa-solid fa-hand-holding-heart"></i> Friendly local guides</li>
+                    </ul>
+                </section>
+
+                <!-- Itinerary -->
+                <section class="card">
+                    <h2><i class="fa-solid fa-route"></i> Itinerary</h2>
+                    <details class="step" open>
+                        <summary><span class="time">08:00</span> Hotel pickup <i class="fa-solid fa-chevron-down arrow"></i></summary>
+                        <p>Our driver collects you from your hotel and takes you to the departure point.</p>
+                    </details>
+                    <details class="step">
+                        <summary><span class="time">09:30</span> Sailing and snorkeling <i class="fa-solid fa-chevron-down arrow"></i></summary>
+                        <p>Sail on a traditional dhow and snorkel in clear, calm water with your guide.</p>
+                    </details>
+                    <details class="step">
+                        <summary><span class="time">13:00</span> Seafood lunch <i class="fa-solid fa-chevron-down arrow"></i></summary>
+                        <p>Enjoy a freshly prepared local lunch with tropical fruit.</p>
+                    </details>
+                    <details class="step">
+                        <summary><span class="time">16:00</span> Return <i class="fa-solid fa-chevron-down arrow"></i></summary>
+                        <p>Sail back and transfer to your hotel.</p>
+                    </details>
+                </section>
+
+                <!-- Included -->
+                <section class="card">
+                    <div class="two">
+                        <div>
+                            <h3><i class="fa-solid fa-circle-check" style="color:green"></i> Included</h3>
+                            <ul class="list yes">
+                                <li><i class="fa-solid fa-check"></i> Hotel pickup and drop-off</li>
+                                <li><i class="fa-solid fa-check"></i> Snorkeling equipment</li>
+                                <li><i class="fa-solid fa-check"></i> Seafood lunch and fruit</li>
+                                <li><i class="fa-solid fa-check"></i> Drinking water</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3><i class="fa-solid fa-circle-xmark" style="color:crimson"></i> Not included</h3>
+                            <ul class="list no">
+                                <li><i class="fa-solid fa-xmark"></i> Tips for the crew</li>
+                                <li><i class="fa-solid fa-xmark"></i> Alcoholic drinks</li>
+                                <li><i class="fa-solid fa-xmark"></i> Personal expenses</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- What to bring -->
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-suitcase"></i> What to bring</h2>
+                    <ul class="grid2">
+                        <li><i class="fa-solid fa-person-swimming"></i> Swimwear and towel</li>
+                        <li><i class="fa-solid fa-sun"></i> Sunscreen and hat</li>
+                        <li><i class="fa-solid fa-glasses"></i> Sunglasses</li>
+                        <li><i class="fa-solid fa-money-bill"></i> Some cash</li>
+                    </ul>
+                </section>
+
+                <!-- Map -->
+                <section class="card map">
+                    <h2><i class="fa-solid fa-map-location-dot"></i> Meeting point</h2>
+                    <iframe
+                        src="https://www.google.com/maps?q=Safari+Blue+Zanzibar&output=embed"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Map of the tour meeting point"></iframe>
+                    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Safari+Blue+Zanzibar" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+                    </a>
+                </section>
+            </div>
+
+            <!-- ================= SIDE COLUMN ================= -->
+            <aside class="side">
+
+                <!-- Booking -->
+                <section class="bookbox" id="book">
+                    <p class="fromprice">From <b>$<span id="unit">65</span></b> / person</p>
+                    <p class="sub">Free cancellation up to 24 hours before the tour.</p>
+
+                    <div class="field">
+                        <label for="date">Date</label>
+                        <input type="date" id="date">
+                    </div>
+
+                    <div class="field">
+                        <label>Number of guests</label>
+                        <div class="stepper">
+                            <button type="button" id="minus" aria-label="Fewer guests">−</button>
+                            <span id="guests">2</span>
+                            <button type="button" id="plus" aria-label="More guests">+</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="who">Your name</label>
+                        <input type="text" id="who" maxlength="60" placeholder="Enter your name">
+                    </div>
+
+                    <div class="total"><span>Total</span><b>$<span id="total">130</span></b></div>
+
+                    <a class="bookbtn" id="waBtn" href="#" target="_blank" rel="noopener">
+                        <i class="fa-brands fa-whatsapp"></i> Book on WhatsApp
+                    </a>
+                    <p class="err" id="err">Please choose a date first.</p>
+                    <p class="safe"><i class="fa-solid fa-shield-halved"></i>No payment now. We confirm on WhatsApp.</p>
+                </section>
+
+                <!-- Operator -->
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-headset"></i> Tour operator</h2>
+                    <div class="operator">
+                        <div class="av"><i class="fa-solid fa-user-tie"></i></div>
+                        <div><b>Afriluxe Adventure</b><small>Verified operator</small></div>
+                    </div>
+                    <div class="contactrow">
+                        <a href="tel:+255655578220"><i class="fa-solid fa-phone"></i> Call</a>
+                        <a href="mailto:Keshoyako123@gmail.com"><i class="fa-solid fa-envelope"></i> Email</a>
+                    </div>
+                </section>
+
+                <!-- Near hotels -->
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-hotel"></i> Hotels nearby</h2>
+                    <div class="rows">
+                        <div class="row"><span><i class="fa-solid fa-bed"></i> Zuri Hotel</span><a href="hotel.detail.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-bed"></i> Tembo Zanzibar Hotel</span><a href="hotel.detail.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-bed"></i> Zanzibar Boutique Hotel</span><a href="hotel.detail.html">View</a></div>
+                    </div>
+                    <a class="viewall" href="Hotel.html">View all</a>
+                </section>
+
+                <!-- More tours -->
+                <section class="card dark">
+                    <h2><i class="fa-solid fa-car"></i> More tours</h2>
+                    <div class="rows">
+                        <div class="row"><span><i class="fa-solid fa-route"></i> Mnemba Island Snorkeling</span><a href="tour.detai.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-route"></i> Jozani Forest Tour</span><a href="tour.detai.html">View</a></div>
+                        <div class="row"><span><i class="fa-solid fa-route"></i> Stone Town Heritage Walk</span><a href="tour.detai.html">View</a></div>
+                    </div>
+                    <a class="viewall" href="Tour.html">View all tours</a>
+                </section>
+
+            </aside>
+        </div>
+    </div>
+
+    <!-- Phone only: price + book button always visible -->
+    <div class="mbar">
+        <div><small>From</small><b>$<span id="mUnit">65</span></b> <small style="display:inline">/ person</small></div>
+        <a href="#book">Book now</a>
+    </div>
+
+    <script>
+        /* ===== Edit these for each tour ===== */
+        const PRICE = 65;                       // price per person in USD
+        const PHONE = "255655578220";           // WhatsApp number (no + sign)
+        const MAX_GUESTS = 20;
+
+        const unit = document.getElementById("unit");
+        const mUnit = document.getElementById("mUnit");
+        const totalEl = document.getElementById("total");
+        const guestsEl = document.getElementById("guests");
+        const dateEl = document.getElementById("date");
+        const whoEl = document.getElementById("who");
+        const waBtn = document.getElementById("waBtn");
+        const err = document.getElementById("err");
+        let guests = 2;
+
+        unit.textContent = PRICE;
+        mUnit.textContent = PRICE;
+
+        // Cannot choose a date in the past
+        const t = new Date();
+        const pad = n => String(n).padStart(2, "0");
+        dateEl.min = t.getFullYear() + "-" + pad(t.getMonth() + 1) + "-" + pad(t.getDate());
+
+        function update() {
+            guestsEl.textContent = guests;
+            totalEl.textContent = (PRICE * guests).toLocaleString();
+        }
+        document.getElementById("minus").addEventListener("click", function () {
+            if (guests > 1) { guests--; update(); }
+        });
+        document.getElementById("plus").addEventListener("click", function () {
+            if (guests < MAX_GUESTS) { guests++; update(); }
+        });
+
+        // Build the WhatsApp message when the button is pressed
+        waBtn.addEventListener("click", function (e) {
+            if (!dateEl.value) {
+                e.preventDefault();
+                err.classList.add("show");
+                dateEl.focus();
+                return;
+            }
+            err.classList.remove("show");
+            const name = whoEl.value.trim() || "a guest";
+            const text =
+                "Hello, I am " + name + ". I would like to book: " +
+                document.getElementById("tourName").textContent +
+                "\nDate: " + dateEl.value +
+                "\nGuests: " + guests +
+                "\nTotal: $" + (PRICE * guests);
+            waBtn.href = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(text);
+        });
+        dateEl.addEventListener("change", function () { err.classList.remove("show"); });
+
+        // Click a small photo to show it in the big frame
+        const mainPic = document.getElementById("mainPic");
+        const thumbs = document.getElementById("thumbs");
+        thumbs.addEventListener("click", function (e) {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            thumbs.querySelectorAll("button").forEach(b => b.classList.remove("on"));
+            btn.classList.add("on");
+            mainPic.src = btn.dataset.src;
+        });
+        // Hide a thumbnail whose picture does not exist
+        thumbs.querySelectorAll("img").forEach(function (img) {
+            img.addEventListener("error", function () { img.parentNode.style.display = "none"; });
+        });
+
+        update();
+    </script>
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inside Zanzibar - Tours</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: antiquewhite; font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+button, select, input { font-family: inherit; }
+
+:root {
+    --teal: rgb(21, 122, 109);
+    --teal-deep: rgb(23, 85, 85);
+    --navy: rgb(6, 6, 133);
+    --orange: rgb(241, 118, 23);
+}
+
+/* ========== NAVIGATION ========== */
+.navbar {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.navpart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.logo img { width: 80px; }
+.link { display: flex; align-items: center; gap: 10px 28px; }
+.link a {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+.link a:hover, .link a.active { background-color: var(--teal); color: white; }
+.navright { display: flex; align-items: center; gap: 16px; }
+.batan a { text-decoration: none; }
+.batan button {
+    color: white;
+    background-color: var(--teal-deep);
+    width: 100px;
+    height: 44px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.language { font-weight: bolder; color: var(--teal-deep); font-size: 14px; }
+.language select { padding: 4px; border-radius: 6px; }
+
+/* ========== HERO ========== */
+.centerpart {
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("picha/center tour.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0 0 10px 10px;
+    min-height: 400px;
+    padding: 34px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    color: white;
+}
+.center i { letter-spacing: 8px; font-size: clamp(12px, 1.6vw, 18px); }
+.center h1 {
+    font-size: clamp(26px, 4.4vw, 46px);
+    margin-top: 14px;
+    line-height: 1.25;
+}
+.center h1 span { color: orange; }
+.search {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 700px;
+    margin-top: 8px;
+}
+.search input {
+    flex: 1;
+    min-width: 0;
+    height: 56px;
+    padding: 0 20px;
+    border-radius: 15px;
+    border: 1px solid white;
+    font-size: 16px;
+}
+.search button {
+    width: 110px;
+    height: 56px;
+    border-radius: 15px;
+    border: 1px solid white;
+    color: white;
+    background-color: rgb(23, 100, 103);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Quick stats under the search */
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 14px;
+    margin-top: 8px;
+}
+.stats div {
+    background-color: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.stats i { letter-spacing: 0; margin-right: 6px; color: wheat; }
+
+/* ========== TOOLBAR ========== */
+.toolbar {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 22px 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.chips { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.chips button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid white;
+    background-color: white;
+    padding: 10px 16px;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    font-weight: bolder;
+    font-size: 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.25s ease;
+}
+.chips button i { font-size: 17px; }
+.chips button:hover, .chips button.active { background-color: var(--teal); color: white; }
+.chips button.saved i { color: crimson; }
+.chips button.saved.active i, .chips button.saved:hover i { color: white; }
+
+.tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+}
+.count { font-size: 15px; font-weight: bold; color: var(--teal-deep); }
+.tools select {
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid white;
+    background-color: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ========== TOUR CARDS ========== */
+.placeall {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px 24px 20px;
+}
+.place {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: rise 0.45s ease both;
+}
+.place:hover { transform: translateY(-5px); box-shadow: 0 10px 22px rgba(0,0,0,0.25); }
+.place:hover img { transform: scale(1.06); }
+@keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.pic {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--teal-deep), var(--teal));
+}
+.pic img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.pic.noimg { aspect-ratio: 4 / 3; }
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0,0,0,0.65);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.score {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: white;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px 9px;
+    border-radius: 20px;
+}
+.dur {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: var(--orange);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.heart {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 3;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 0;
+    background-color: rgba(255,255,255,0.92);
+    color: #777;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.heart:hover { transform: scale(1.12); }
+.heart.on { color: crimson; }
+
+.info {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+.info h2 { font-size: clamp(16px, 1.4vw, 20px); }
+.info p { font-size: 14px; color: #444; }
+.info p i { margin-right: 4px; color: var(--teal); }
+.reviews { font-size: 13px; color: #555; }
+.price { font-size: 14px; color: #444; }
+.price b { font-size: 20px; color: var(--teal-deep); }
+.view {
+    margin-top: auto;
+    text-align: center;
+    background-color: var(--navy);
+    color: white;
+    font-weight: bolder;
+    font-size: 14px;
+    padding: 11px;
+    border-radius: 12px;
+    transition: 0.25s ease;
+}
+.place:hover .view { background-color: var(--teal-deep); }
+.view::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.view a { color: white; text-decoration: none; }
+
+.noresult {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--teal-deep);
+}
+
+/* Load more */
+.morewrap { text-align: center; padding: 0 16px 50px; }
+.more {
+    padding: 14px 34px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: var(--teal-deep);
+    border: 0;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: 0.25s ease;
+}
+.more:hover { background-color: var(--teal); transform: translateY(-2px); }
+.shown { margin-top: 10px; font-size: 14px; color: #555; }
+
+/* Back to top */
+.totop {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 0;
+    background-color: var(--teal-deep);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+    z-index: 90;
+}
+.totop.show { opacity: 1; pointer-events: auto; }
+.totop:hover { background-color: var(--teal); }
+
+@media (prefers-reduced-motion: reduce) {
+    .place, .pic img { animation: none; transition: none; }
+    html { scroll-behavior: auto; }
+}
+
+/* ========== LAPTOP: 4 per row ========== */
+@media (max-width: 1399px) {
+    .placeall { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ========== TABLET: 3 per row ========== */
+@media (max-width: 1024px) {
+    .navpart { padding: 8px 16px; }
+    .link { gap: 6px 10px; }
+    .centerpart { min-height: 380px; }
+    .toolbar { padding: 18px 16px 0; }
+    .placeall { grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 16px; }
+    .info { padding: 12px; }
+}
+
+/* ========== PHONE: 2 per row ========== */
+@media (max-width: 768px) {
+    .navpart { flex-wrap: wrap; padding: 6px 12px; gap: 6px 10px; }
+    .logo { order: 1; }
+    .logo img { width: 55px; }
+    .navright { order: 2; margin-left: auto; gap: 10px; }
+    .batan button { width: 80px; height: 36px; font-size: 14px; }
+    .language p { display: none; }
+    .link {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+    }
+    .link a { font-size: 13px; padding: 7px 8px; flex-shrink: 0; }
+
+    .centerpart { min-height: 330px; padding: 26px 14px; }
+    .center i { letter-spacing: 3px; }
+    .center br { display: none; }
+    .search input { height: 48px; padding: 0 14px; }
+    .search button { width: 90px; height: 48px; }
+    .stats div { font-size: 12px; padding: 6px 12px; }
+
+    .toolbar { padding: 14px 10px 0; gap: 10px; }
+    .chips { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 6px; }
+    .chips button { padding: 8px 13px; font-size: 13px; flex-shrink: 0; }
+    .tools select { font-size: 13px; padding: 8px 10px; }
+
+    .placeall { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px 10px 20px; }
+    .place { border-radius: 12px; }
+    .badge { font-size: 10px; padding: 4px 8px; top: 8px; left: 8px; }
+    .score { font-size: 11px; bottom: 8px; left: 8px; }
+    .dur { font-size: 10px; padding: 4px 8px; bottom: 8px; right: 8px; }
+    .heart { width: 32px; height: 32px; font-size: 14px; }
+    .info { padding: 10px; gap: 4px; }
+    .info h2 { font-size: 15px; }
+    .info p { font-size: 12px; }
+    .reviews, .price { font-size: 12px; }
+    .price b { font-size: 17px; }
+    .view { font-size: 13px; padding: 9px 4px; border-radius: 10px; }
+    .totop { width: 42px; height: 42px; right: 12px; bottom: 12px; }
+}
+
+@media (max-width: 340px) {
+    .link a { font-size: 12px; padding: 6px 5px; }
+    .placeall { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <section class="navbar">
+        <div class="navpart">
+            <div class="logo">
+                <img src="picha/logo.png" alt="logo of the system">
+            </div>
+
+            <div class="link">
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="place.html">Place</a>
+                <a href="Tour.html" class="active">Tour</a>
+                <a href="Hotel.html">Hotel</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="navright">
+                <div class="batan">
+                    <a href="login.html"><button>Sign up</button></a>
+                </div>
+                <div class="language">
+                    <p>language</p>
+                    <select name="language">
+                        <option value="English">English</option>
+                        <option value="France">French</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italian</option>
+                        <option value="Swahili">Swahili</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERO -->
+    <section class="centerall">
+        <div class="centerpart">
+            <div class="center">
+                <i>Discover. Experience. Remember</i>
+                <h1>Explore <span>Tours</span> Found In Zanzibar<br>Book with us to get an unforgettable<br>experience</h1>
+            </div>
+
+            <div class="search">
+                <input type="search" id="searchInput" placeholder="Search for tour 🔍">
+                <button id="searchBtn">Search</button>
+            </div>
+
+            <div class="stats">
+                <div><i class="fa-solid fa-route"></i><span id="statTours">0</span> tours</div>
+                <div><i class="fa-solid fa-shield-halved"></i>Trusted operators</div>
+                <div><i class="fa-solid fa-headset"></i>24/7 support</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FILTERS -->
+    <section class="toolbar">
+        <div class="chips" id="chips"></div>
+        <div class="tools">
+            <span class="count" id="count"></span>
+            <select id="sortSelect" aria-label="Sort tours">
+                <option value="default">Recommended</option>
+                <option value="rating">Top rated</option>
+                <option value="reviews">Most reviewed</option>
+                <option value="priceLow">Price: low to high</option>
+                <option value="priceHigh">Price: high to low</option>
+                <option value="name">Name A-Z</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- TOUR LIST -->
+    <section class="Placecard">
+        <div class="placeall" id="tourList"></div>
+        <div class="morewrap" id="moreWrap">
+            <button class="more" id="moreBtn">Show more tours <i class="fa-solid fa-chevron-down"></i></button>
+            <p class="shown" id="shown"></p>
+        </div>
+    </section>
+
+    <button class="totop" id="toTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <script>
+        // Add or edit tours here.
+        // cat: beach | historical | cultural | nature | spice
+        // price = price from, in USD. If a picture is missing, a green placeholder is shown.
+        const tours = [
+            { name: "Safari Blue Tour",         img: "picha/safari blue.jpg",             loc: "South Unguja",      cat: "beach",      rating: 4.9, reviews: 534, price: 65, hours: "8 hrs" },
+            { name: "Forodhani Night Tour",     img: "picha/forodhani aerial view.jpg",   loc: "Stone Town",        cat: "cultural",   rating: 4.6, reviews: 312, price: 25, hours: "3 hrs" },
+            { name: "Mnemba Island Snorkeling", img: "picha/mnemba.png",                  loc: "North-East Unguja", cat: "beach",      rating: 4.8, reviews: 428, price: 70, hours: "6 hrs" },
+            { name: "Jozani Forest Tour",       img: "picha/jozani.jpg",                  loc: "Central Unguja",    cat: "nature",     rating: 4.7, reviews: 389, price: 40, hours: "4 hrs" },
+            { name: "Stone Town Heritage Walk", img: "picha/stone town.jpg",              loc: "Stone Town",        cat: "historical", rating: 4.8, reviews: 451, price: 30, hours: "3 hrs" },
+            { name: "Nungwi Beach Day",         img: "picha/nungwi.jpg",                  loc: "Northern Unguja",   cat: "beach",      rating: 4.7, reviews: 276, price: 35, hours: "6 hrs" },
+            { name: "Paje Beach & Kite Tour",   img: "picha/paje.jpg",                    loc: "South-East Unguja", cat: "beach",      rating: 4.6, reviews: 198, price: 45, hours: "5 hrs" },
+            { name: "Old Fort Culture Tour",    img: "picha/old fort.jpg",                loc: "Stone Town",        cat: "historical", rating: 4.5, reviews: 127, price: 20, hours: "2 hrs" },
+            { name: "Spice Farm Tour",          img: "picha/spice farm.jpg",              loc: "Central Unguja",    cat: "spice",      rating: 4.8, reviews: 365, price: 28, hours: "3 hrs" },
+            { name: "Swahili Cooking Class",    img: "picha/swahili cooking.jpg",         loc: "Stone Town",        cat: "cultural",   rating: 4.7, reviews: 142, price: 38, hours: "4 hrs" },
+            { name: "Prison Island Tour",       img: "picha/prison island.jpg",           loc: "Off Stone Town",    cat: "historical", rating: 4.6, reviews: 289, price: 32, hours: "4 hrs" },
+            { name: "Dolphin Watching Kizimkazi", img: "picha/dolphin.jpg",               loc: "South Unguja",      cat: "nature",     rating: 4.5, reviews: 233, price: 42, hours: "4 hrs" }
+        ];
+
+        const PAGE_SIZE = 10;
+        const list = document.getElementById("tourList");
+        const chipsBox = document.getElementById("chips");
+        const countBox = document.getElementById("count");
+        const searchInput = document.getElementById("searchInput");
+        const sortSelect = document.getElementById("sortSelect");
+        const moreWrap = document.getElementById("moreWrap");
+        const moreBtn = document.getElementById("moreBtn");
+        const shownBox = document.getElementById("shown");
+        const toTop = document.getElementById("toTop");
+
+        let currentCat = "all";
+        let visible = PAGE_SIZE;
+
+        document.getElementById("statTours").textContent = tours.length;
+
+        /* ---- favourites (saved in the browser, safe if storage is blocked) ---- */
+        let favs = [];
+        try { favs = JSON.parse(localStorage.getItem("zanFavTours")) || []; } catch (e) { favs = []; }
+        function saveFavs() {
+            try { localStorage.setItem("zanFavTours", JSON.stringify(favs)); } catch (e) {}
+        }
+
+        /* ---- filter buttons ---- */
+        const cats = [
+            { key: "all",        label: "All Tours",           icon: "fa-border-all" },
+            { key: "beach",      label: "Beaches",             icon: "fa-umbrella-beach" },
+            { key: "historical", label: "Historical",          icon: "fa-landmark" },
+            { key: "cultural",   label: "Cultural",            icon: "fa-masks-theater" },
+            { key: "nature",     label: "Nature",              icon: "fa-leaf" },
+            { key: "spice",      label: "Spice & Agriculture", icon: "fa-pepper-hot" },
+            { key: "saved",      label: "Saved",               icon: "fa-heart", cls: "saved" }
+        ];
+        chipsBox.innerHTML = cats.map(c =>
+            `<button data-cat="${c.key}" class="${c.cls || ""} ${c.key === "all" ? "active" : ""}">
+                <i class="fa-solid ${c.icon}"></i> ${c.label}
+            </button>`
+        ).join("");
+
+        const catName = { beach: "Beach", historical: "Historical", cultural: "Cultural", nature: "Nature", spice: "Spice" };
+
+        /* ---- draw cards ---- */
+        function render() {
+            const q = searchInput.value.trim().toLowerCase();
+            let shown = tours.filter(t => {
+                const okCat = currentCat === "all" ||
+                              (currentCat === "saved" ? favs.includes(t.name) : t.cat === currentCat);
+                const okText = t.name.toLowerCase().includes(q) || t.loc.toLowerCase().includes(q);
+                return okCat && okText;
+            });
+
+            const sort = sortSelect.value;
+            if (sort === "rating")    shown.sort((a, b) => b.rating - a.rating);
+            if (sort === "reviews")   shown.sort((a, b) => b.reviews - a.reviews);
+            if (sort === "priceLow")  shown.sort((a, b) => a.price - b.price);
+            if (sort === "priceHigh") shown.sort((a, b) => b.price - a.price);
+            if (sort === "name")      shown.sort((a, b) => a.name.localeCompare(b.name));
+
+            const total = shown.length;
+            countBox.textContent = total + (total === 1 ? " tour found" : " tours found");
+
+            if (total === 0) {
+                list.innerHTML = '<div class="noresult">' +
+                    (currentCat === "saved" ? "You have no saved tours yet. Tap the heart on a tour to save it."
+                                            : "No tour found. Try another search.") + '</div>';
+                moreWrap.style.display = "none";
+                return;
+            }
+
+            const part = shown.slice(0, visible);
+            list.innerHTML = part.map((t, i) => `
+                <article class="place" style="animation-delay:${Math.min(i, 10) * 0.05}s">
+                    <div class="pic">
+                        <img src="${t.img}" alt="${t.name}" loading="lazy" onerror="this.style.display='none';this.parentNode.classList.add('noimg')">
+                        <span class="badge">${catName[t.cat] || "Tour"}</span>
+                        <span class="score">⭐ ${t.rating.toFixed(1)}</span>
+                        <span class="dur"><i class="fa-regular fa-clock"></i> ${t.hours}</span>
+                        <button class="heart ${favs.includes(t.name) ? "on" : ""}" data-name="${t.name}" aria-label="Save ${t.name}">
+                            <i class="${favs.includes(t.name) ? "fa-solid" : "fa-regular"} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="info">
+                        <h2>${t.name}</h2>
+                        <p><i class="fa-solid fa-location-dot"></i>${t.loc}</p>
+                        <span class="reviews">(${t.reviews} reviews)</span>
+                        <span class="price">From <b>$${t.price}</b> / person</span>
+                        <div class="view"><a href="tour.detai.html">View Details →</a></div>
+                    </div>
+                </article>
+            `).join("");
+
+            moreWrap.style.display = "block";
+            shownBox.textContent = "Showing " + part.length + " of " + total;
+            moreBtn.style.display = part.length < total ? "inline-block" : "none";
+        }
+
+        function resetAndRender() { visible = PAGE_SIZE; render(); }
+
+        /* ---- events ---- */
+        chipsBox.addEventListener("click", function (e) {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            chipsBox.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentCat = btn.dataset.cat;
+            resetAndRender();
+        });
+
+        list.addEventListener("click", function (e) {
+            const heart = e.target.closest(".heart");
+            if (!heart) return;
+            const name = heart.dataset.name;
+            favs = favs.includes(name) ? favs.filter(n => n !== name) : favs.concat(name);
+            saveFavs();
+            if (currentCat === "saved") { render(); return; }
+            heart.classList.toggle("on");
+            heart.querySelector("i").className = (favs.includes(name) ? "fa-solid" : "fa-regular") + " fa-heart";
+        });
+
+        /* ---- kadi ikibonyezwa, peleka kwenye Tour.detail.html ---- */
+list.addEventListener("click", function (e) {
+    if (e.target.closest(".heart")) return;   // heart ibaki ya kusave tu
+    const card = e.target.closest(".place");
+    if (!card) return;
+    e.preventDefault();
+    window.location.href = "tour.detai.html";
+});
+
+        moreBtn.addEventListener("click", function () { visible += PAGE_SIZE; render(); });
+        searchInput.addEventListener("input", resetAndRender);
+        document.getElementById("searchBtn").addEventListener("click", resetAndRender);
+        sortSelect.addEventListener("change", resetAndRender);
+
+        window.addEventListener("scroll", function () {
+            toTop.classList.toggle("show", window.scrollY > 500);
+        });
+        toTop.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        render();
+    </script>
+</body>
+</html>

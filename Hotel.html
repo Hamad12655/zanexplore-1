@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inside Zanzibar - Hotels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: antiquewhite; font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+button, select, input { font-family: inherit; }
+
+:root {
+    --teal: rgb(21, 122, 109);
+    --teal-deep: rgb(23, 85, 85);
+    --navy: rgb(6, 6, 133);
+}
+
+/* ========== NAVIGATION ========== */
+.navbar {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.navpart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.logo img { width: 80px; }
+.link { display: flex; align-items: center; gap: 10px 28px; }
+.link a {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+.link a:hover, .link a.active { background-color: var(--teal); color: white; }
+.navright { display: flex; align-items: center; gap: 16px; }
+.batan a { text-decoration: none; }
+.batan button {
+    color: white;
+    background-color: var(--teal-deep);
+    width: 100px;
+    height: 44px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.language { font-weight: bolder; color: var(--teal-deep); font-size: 14px; }
+.language select { padding: 4px; border-radius: 6px; }
+
+/* ========== HERO ========== */
+.centerpart {
+    background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url("picha/hotel center.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0 0 10px 10px;
+    min-height: 360px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    color: white;
+}
+.center h1 { font-size: clamp(32px, 5vw, 50px); }
+.center p {
+    font-size: clamp(16px, 2.6vw, 28px);
+    margin-top: 12px;
+    line-height: 1.4;
+}
+.search {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 700px;
+    margin-top: 10px;
+}
+.search input {
+    flex: 1;
+    min-width: 0;
+    height: 56px;
+    padding: 0 20px;
+    border-radius: 15px;
+    border: 1px solid white;
+    font-size: 16px;
+}
+.search button {
+    width: 110px;
+    height: 56px;
+    border-radius: 15px;
+    border: 1px solid white;
+    color: white;
+    background-color: var(--teal-deep);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ========== TOOLBAR: FILTERS + SORT + COUNT ========== */
+.toolbar {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+}
+.chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.chips button {
+    border: 1px solid white;
+    background-color: white;
+    padding: 10px 18px;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    font-weight: bolder;
+    font-size: 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.25s ease;
+}
+.chips button:hover, .chips button.active { background-color: var(--teal); color: white; }
+.tools { display: flex; align-items: center; gap: 14px; }
+.count { font-size: 15px; font-weight: bold; color: var(--teal-deep); }
+.tools select {
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid white;
+    background-color: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ========== HOTEL CARDS ========== */
+.placeall {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px 24px 50px;
+}
+.place {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: rise 0.45s ease both;
+}
+.place:hover { transform: translateY(-5px); box-shadow: 0 10px 22px rgba(0,0,0,0.25); }
+.place:hover img { transform: scale(1.06); }
+@keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.pic { position: relative; overflow: hidden; }
+.pic img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0,0,0,0.65);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.score {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: white;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px 9px;
+    border-radius: 20px;
+}
+.heart {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 3;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 0;
+    background-color: rgba(255,255,255,0.92);
+    color: #777;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.heart:hover { transform: scale(1.12); }
+.heart.on { color: crimson; }
+
+.info {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+.info h2 { font-size: clamp(16px, 1.4vw, 20px); }
+.info p { font-size: 14px; color: #444; }
+.info p i { margin-right: 4px; color: var(--teal); }
+.reviews { font-size: 13px; color: #555; }
+.view {
+    margin-top: auto;
+    text-align: center;
+    background-color: var(--navy);
+    color: white;
+    font-weight: bolder;
+    font-size: 14px;
+    padding: 11px;
+    border-radius: 12px;
+    transition: 0.25s ease;
+}
+.place:hover .view { background-color: var(--teal-deep); }
+/* Whole card is clickable through this link */
+.view::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.view a { color: white; text-decoration: none; }
+
+.noresult {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--teal-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .place, .pic img { animation: none; transition: none; }
+}
+
+/* ========== LAPTOP: 4 per row ========== */
+@media (max-width: 1399px) {
+    .placeall { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ========== TABLET: 3 per row ========== */
+@media (max-width: 1024px) {
+    .navpart { padding: 8px 16px; }
+    .link { gap: 6px 10px; }
+    .toolbar { padding: 16px 16px 0; }
+    .placeall { grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 16px 16px 40px; }
+    .info { padding: 12px; }
+}
+
+/* ========== PHONE: 2 per row ========== */
+@media (max-width: 768px) {
+    .navpart { flex-wrap: wrap; padding: 6px 12px; gap: 6px 10px; }
+    .logo { order: 1; }
+    .logo img { width: 55px; }
+    .navright { order: 2; margin-left: auto; gap: 10px; }
+    .batan button { width: 80px; height: 36px; font-size: 14px; }
+    .language p { display: none; }
+    .link {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+    }
+    .link a { font-size: 13px; padding: 7px 8px; flex-shrink: 0; }
+
+    .centerpart { min-height: 290px; padding: 24px 14px; }
+    .center br { display: none; }
+    .search input { height: 48px; padding: 0 14px; }
+    .search button { width: 90px; height: 48px; }
+
+    .toolbar { padding: 14px 10px 0; flex-direction: column; align-items: stretch; gap: 10px; }
+    .chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
+    .chips button { padding: 8px 14px; font-size: 13px; flex-shrink: 0; }
+    .tools { justify-content: space-between; }
+    .tools select { font-size: 13px; padding: 8px 10px; }
+
+    .placeall { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px 10px 30px; }
+    .place { border-radius: 12px; }
+    .badge { font-size: 10px; padding: 4px 8px; top: 8px; left: 8px; }
+    .score { font-size: 11px; bottom: 8px; left: 8px; }
+    .heart { width: 32px; height: 32px; font-size: 14px; }
+    .info { padding: 10px; gap: 4px; }
+    .info h2 { font-size: 15px; }
+    .info p { font-size: 12px; }
+    .reviews { font-size: 11px; }
+    .view { font-size: 13px; padding: 9px 4px; border-radius: 10px; }
+}
+
+@media (max-width: 340px) {
+    .link a { font-size: 12px; padding: 6px 5px; }
+    .placeall { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <section class="navbar">
+        <div class="navpart">
+            <div class="logo">
+                <img src="picha/logo.png" alt="logo of the system">
+            </div>
+
+            <div class="link">
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="place.html">Place</a>
+                <a href="Tour.html">Tour</a>
+                <a href="Hotel.html" class="active">Hotel</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <div class="navright">
+                <div class="batan">
+                    <a href="login.html"><button>Sign up</button></a>
+                </div>
+                <div class="language">
+                    <p>language</p>
+                    <select name="language">
+                        <option value="English">English</option>
+                        <option value="France">French</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italian</option>
+                        <option value="Swahili">Swahili</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERO -->
+    <section class="centerall">
+        <div class="centerpart">
+            <div class="center">
+                <h1>ZanExplore</h1>
+                <p>Get Hotels, Resorts, Accommodation,<br>Apartments and Villas<br>in Zanzibar</p>
+            </div>
+
+            <div class="search">
+                <input type="search" id="searchInput" placeholder="Search for hotel 🔍">
+                <button id="searchBtn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FILTERS -->
+    <section class="toolbar">
+        <div class="chips" id="chips"></div>
+        <div class="tools">
+            <span class="count" id="count"></span>
+            <select id="sortSelect" aria-label="Sort hotels">
+                <option value="default">Recommended</option>
+                <option value="rating">Top rated</option>
+                <option value="reviews">Most reviewed</option>
+                <option value="name">Name A-Z</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- HOTEL LIST -->
+    <section class="Placecard">
+        <div class="placeall" id="hotelList"></div>
+    </section>
+
+    <script>
+        // Add or edit hotels here. type: Hotel | Resort | Villa | Apartment
+        // (filter buttons are created automatically from the types you use)
+        const hotels = [
+            { name: "Zuri Zanzibar Hotel",   img: "picha/zuri hotel.jpg",                    loc: "Northern Unguja",   type: "Resort",    rating: 4.8, reviews: 534 },
+            { name: "Baraza Resort",          img: "picha/baraza hotel.jpg",                  loc: "South-East Unguja", type: "Resort",    rating: 4.9, reviews: 412 },
+            { name: "Park Hyatt Zanzibar",    img: "picha/-park-hyatt-zanzibar-1560.jpg",     loc: "Stone Town",        type: "Hotel",     rating: 4.7, reviews: 389 },
+            { name: "The Residence Zanzibar", img: "picha/The res8dence zanzibar.jpg",        loc: "South-West Unguja", type: "Villa",     rating: 4.8, reviews: 276 },
+            { name: "Melia Zanzibar",         img: "picha/Melia zanzibar hotel.jpg",          loc: "North-East Unguja", type: "Resort",    rating: 4.6, reviews: 351 }
+        ];
+
+        const list = document.getElementById("hotelList");
+        const chipsBox = document.getElementById("chips");
+        const countBox = document.getElementById("count");
+        const searchInput = document.getElementById("searchInput");
+        const sortSelect = document.getElementById("sortSelect");
+        let currentType = "All";
+
+        /* ---- favourites (saved in the browser, safe if storage is blocked) ---- */
+        let favs = [];
+        try { favs = JSON.parse(localStorage.getItem("zanFavHotels")) || []; } catch (e) { favs = []; }
+        function saveFavs() {
+            try { localStorage.setItem("zanFavHotels", JSON.stringify(favs)); } catch (e) {}
+        }
+
+        /* ---- filter buttons from the data ---- */
+        const types = ["All"].concat([...new Set(hotels.map(h => h.type))]);
+        chipsBox.innerHTML = types.map(t =>
+            `<button data-type="${t}" class="${t === "All" ? "active" : ""}">${t === "All" ? "All" : t + "s"}</button>`
+        ).join("");
+
+        /* ---- draw cards ---- */
+        function render() {
+            const q = searchInput.value.trim().toLowerCase();
+            let shown = hotels.filter(h =>
+                (currentType === "All" || h.type === currentType) &&
+                (h.name.toLowerCase().includes(q) || h.loc.toLowerCase().includes(q))
+            );
+
+            const sort = sortSelect.value;
+            if (sort === "rating")  shown.sort((a, b) => b.rating - a.rating);
+            if (sort === "reviews") shown.sort((a, b) => b.reviews - a.reviews);
+            if (sort === "name")    shown.sort((a, b) => a.name.localeCompare(b.name));
+
+            countBox.textContent = shown.length + (shown.length === 1 ? " hotel" : " hotels");
+
+            if (shown.length === 0) {
+                list.innerHTML = '<div class="noresult">No hotel found. Try another search.</div>';
+                return;
+            }
+
+            list.innerHTML = shown.map((h, i) => `
+                <article class="place" style="animation-delay:${Math.min(i, 10) * 0.05}s">
+                    <div class="pic">
+                        <img src="${h.img}" alt="${h.name}" loading="lazy">
+                        <span class="badge">${h.type}</span>
+                        <span class="score">⭐ ${h.rating.toFixed(1)}</span>
+                        <button class="heart ${favs.includes(h.name) ? "on" : ""}" data-name="${h.name}" aria-label="Save ${h.name}">
+                            <i class="${favs.includes(h.name) ? "fa-solid" : "fa-regular"} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="info">
+                        <h2>${h.name}</h2>
+                        <p><i class="fa-solid fa-location-dot"></i>${h.loc}</p>
+                        <span class="reviews">(${h.reviews} reviews)</span>
+                        <div class="view"><a href="hotel.detail.html">View Hotel →</a></div>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        /* ---- events ---- */
+        chipsBox.addEventListener("click", function (e) {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            chipsBox.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentType = btn.dataset.type;
+            render();
+        });
+
+        list.addEventListener("click", function (e) {
+            const heart = e.target.closest(".heart");
+            if (!heart) return;
+            const name = heart.dataset.name;
+            favs = favs.includes(name) ? favs.filter(n => n !== name) : favs.concat(name);
+            saveFavs();
+            heart.classList.toggle("on");
+            const icon = heart.querySelector("i");
+            icon.className = (favs.includes(name) ? "fa-solid" : "fa-regular") + " fa-heart";
+        });
+
+        searchInput.addEventListener("input", render);
+        document.getElementById("searchBtn").addEventListener("click", render);
+        sortSelect.addEventListener("change", render);
+
+        render();
+
+
+
+       
+
+        /* kadi ya hotel ikibonyezwa, peleka kwenye hotel.detail.html */
+        document.getElementById("hotelList").addEventListener("click", function (e) {
+            if (e.target.closest(".heart")) return;   // heart ibaki ya kusave tu
+            const card = e.target.closest(".place");
+            if (!card) return;
+            e.preventDefault();
+            window.location.href = "hotel.detail.html";
+        });
+    </script>
+
+
+
+
+</body>
+</html>

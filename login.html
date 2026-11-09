@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inside Zanzibar - Sign in</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, rgb(14, 120, 128), rgb(23, 85, 85));
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+button, input { font-family: inherit; }
+
+:root {
+    --teal: rgb(14, 120, 128);
+    --teal-deep: rgb(23, 85, 85);
+    --purple: rgb(56, 10, 142);
+}
+
+/* ========== CARD ========== */
+.wrap {
+    width: 100%;
+    max-width: 1020px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+/* ========== FORM SIDE ========== */
+.formside { padding: 36px 40px; display: flex; flex-direction: column; justify-content: center; }
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.top img { width: 90px; }
+.home {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--teal-deep);
+}
+.home:hover { text-decoration: underline; }
+
+.tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #eef3f3;
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+.tabs button {
+    padding: 11px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 15px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+.tabs button.on { background-color: var(--teal); color: white; box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+
+.formside h1 { font-size: clamp(22px, 3vw, 28px); color: var(--teal-deep); }
+.sub { margin: 6px 0 18px; color: #666; font-size: 15px; }
+
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 6px; }
+.box { position: relative; }
+.box > i.lead {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+}
+.box input {
+    width: 100%;
+    height: 48px;
+    padding: 0 46px 0 42px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 14px;
+    background-color: #fafafa;
+    transition: 0.2s ease;
+}
+.box input:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(14,120,128,0.2);
+    background-color: white;
+}
+.box input.bad { border-color: crimson; }
+.eye {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border: 0;
+    background: transparent;
+    color: #777;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.eye:hover { color: var(--teal); }
+.hint { display: none; margin-top: 5px; font-size: 13px; color: crimson; }
+.hint.show { display: block; }
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin: 4px 0 16px;
+    font-size: 14px;
+}
+.row label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--teal); }
+.row a, .switch a { color: var(--teal); font-weight: bold; text-decoration: none; }
+.row a:hover, .switch a:hover { text-decoration: underline; }
+
+.main {
+    width: 100%;
+    height: 50px;
+    border: 0;
+    border-radius: 14px;
+    background-color: var(--teal);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+.main:hover { background-color: var(--teal-deep); }
+.or {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+    color: #888;
+    font-size: 14px;
+}
+.or::before, .or::after { content: ""; flex: 1; height: 1px; background-color: #ddd; }
+.google {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid #bbb;
+    border-radius: 14px;
+    background-color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+.google:hover { background-color: #f3f3f3; }
+.google i { color: #db4437; font-size: 19px; }
+.switch { margin-top: 16px; text-align: center; font-size: 15px; color: #555; }
+
+.msg { display: none; margin-top: 14px; padding: 12px 14px; border-radius: 10px; font-weight: bold; font-size: 14px; }
+.msg.ok { display: block; background-color: #e3f6e8; color: #166534; }
+.msg.err { display: block; background-color: #fde8e8; color: #a11; }
+
+form[hidden] { display: none; }
+
+/* ========== PICTURE SIDE ========== */
+.showside {
+    position: relative;
+    min-height: 100%;
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.7)), url("picha/forodhani aerial view.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 14px;
+    border-radius: 0 0 0 60px;
+}
+.showside h2 { font-size: clamp(26px, 3.2vw, 36px); }
+.showside h2 span { color: orange; }
+.showside p { font-family: cursive; font-size: 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.chips div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.45);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    backdrop-filter: blur(4px);
+}
+.chips i { color: wheat; }
+
+/* ========== TABLET: picture becomes a banner on top ========== */
+@media (max-width: 900px) {
+    .wrap { grid-template-columns: 1fr; max-width: 560px; }
+    .showside {
+        order: -1;
+        min-height: 190px;
+        padding: 22px 26px;
+        border-radius: 0 0 40px 0;
+        justify-content: flex-end;
+    }
+    .showside p { font-size: 17px; }
+    .formside { padding: 28px 30px 32px; }
+}
+
+/* ========== PHONE ========== */
+@media (max-width: 560px) {
+    body { padding: 0; align-items: stretch; background: white; }
+    .wrap { max-width: none; border-radius: 0; box-shadow: none; min-height: 100vh; min-height: 100dvh; }
+    .showside { min-height: 150px; padding: 18px 18px; gap: 8px; border-radius: 0 0 30px 0; }
+    .showside p { font-size: 15px; }
+    .chips { gap: 6px; }
+    .chips div { font-size: 12px; padding: 6px 10px; }
+    .formside { padding: 22px 18px 30px; }
+    .top img { width: 70px; }
+    .row { font-size: 13px; }
+}
+
+@media (max-width: 340px) {
+    .chips div:nth-child(3) { display: none; }
+}
+    </style>
+</head>
+<body>
+    <main class="wrap">
+
+        <!-- ============ FORM ============ -->
+        <section class="formside">
+            <div class="top">
+                <img src="picha/logo.png" alt="ZanExplore logo">
+                <a class="home" href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to home</a>
+            </div>
+
+            <div class="tabs" role="tablist">
+                <button type="button" class="on" id="tabIn" role="tab">Sign in</button>
+                <button type="button" id="tabUp" role="tab">Sign up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <form id="signinForm" novalidate>
+                <h1>Welcome back</h1>
+                <p class="sub">Sign in to continue exploring Zanzibar.</p>
+
+                <div class="field">
+                    <label for="inEmail">Email</label>
+                    <div class="box">
+                        <i class="fa-solid fa-envelope lead"></i>
+                        <input type="email" id="inEmail" placeholder="Enter your email" autocomplete="email">
+                    </div>
+                    <p class="hint" id="inEmailHint">Please enter a valid email.</p>
+                </div>
+
+                <div class="field">
+                    <label for="inPass">Password</label>
+                    <div class="box">
+                        <i class="fa-solid fa-lock lead"></i>
+                        <input type="password" id="inPass" placeholder="Enter your password" autocomplete="current-password">
+                        <button type="button" class="eye" aria-label="Show password"><i class="fa-regular fa-eye"></i></button>
+                    </div>
+                    <p class="hint" id="inPassHint">Please enter your password.</p>
+                </div>
+
+                <div class="row">
+                    <label><input type="checkbox" id="remember"> Remember me</label>
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button class="main" type="submit">Sign in</button>
+            </form>
+
+            <!-- SIGN UP -->
+            <form id="signupForm" novalidate hidden>
+                <h1>Create your account</h1>
+                <p class="sub">Join ZanExplore and plan your trip in minutes.</p>
+
+                <div class="field">
+                    <label for="upName">Full name</label>
+                    <div class="box">
+                        <i class="fa-solid fa-user lead"></i>
+                        <input type="text" id="upName" placeholder="Enter your name" autocomplete="name" maxlength="60">
+                    </div>
+                    <p class="hint" id="upNameHint">Please enter your name.</p>
+                </div>
+
+                <div class="field">
+                    <label for="upEmail">Email</label>
+                    <div class="box">
+                        <i class="fa-solid fa-envelope lead"></i>
+                        <input type="email" id="upEmail" placeholder="Enter your email" autocomplete="email">
+                    </div>
+                    <p class="hint" id="upEmailHint">Please enter a valid email.</p>
+                </div>
+
+                <div class="field">
+                    <label for="upPass">Password</label>
+                    <div class="box">
+                        <i class="fa-solid fa-lock lead"></i>
+                        <input type="password" id="upPass" placeholder="At least 6 characters" autocomplete="new-password">
+                        <button type="button" class="eye" aria-label="Show password"><i class="fa-regular fa-eye"></i></button>
+                    </div>
+                    <p class="hint" id="upPassHint">Password must have at least 6 characters.</p>
+                </div>
+
+                <div class="field">
+                    <label for="upPass2">Confirm password</label>
+                    <div class="box">
+                        <i class="fa-solid fa-lock lead"></i>
+                        <input type="password" id="upPass2" placeholder="Repeat your password" autocomplete="new-password">
+                        <button type="button" class="eye" aria-label="Show password"><i class="fa-regular fa-eye"></i></button>
+                    </div>
+                    <p class="hint" id="upPass2Hint">The passwords do not match.</p>
+                </div>
+
+                <button class="main" type="submit">Create account</button>
+            </form>
+
+            <div class="or">or</div>
+            <button type="button" class="google" id="googleBtn"><i class="fa-brands fa-google"></i> Continue with Google</button>
+
+            <p class="switch" id="switchText">Don't have an account? <a href="#signup" id="switchLink">Sign up</a></p>
+
+            <div class="msg" id="msg" role="status"></div>
+        </section>
+
+        <!-- ============ PICTURE ============ -->
+        <aside class="showside">
+            <h2>The Inside <span>Zanzibar</span></h2>
+            <p>Discover beyond experience</p>
+            <div class="chips">
+                <div><i class="fa-solid fa-landmark"></i> Historical</div>
+                <div><i class="fa-solid fa-tree"></i> Nature</div>
+                <div><i class="fa-solid fa-masks-theater"></i> Culture</div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        const tabIn = document.getElementById("tabIn");
+        const tabUp = document.getElementById("tabUp");
+        const signin = document.getElementById("signinForm");
+        const signup = document.getElementById("signupForm");
+        const switchText = document.getElementById("switchText");
+        const msg = document.getElementById("msg");
+        const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
+        function showMsg(text, type) { msg.textContent = text; msg.className = "msg " + type; }
+        function clearAll() {
+            msg.className = "msg";
+            document.querySelectorAll(".hint").forEach(h => h.classList.remove("show"));
+            document.querySelectorAll(".box input").forEach(i => i.classList.remove("bad"));
+        }
+        function flag(inputId, hintId, bad) {
+            document.getElementById(inputId).classList.toggle("bad", bad);
+            document.getElementById(hintId).classList.toggle("show", bad);
+            return !bad;
+        }
+
+        /* ---- switch between Sign in and Sign up ---- */
+        function mode(up) {
+            clearAll();
+            signin.hidden = up;
+            signup.hidden = !up;
+            tabIn.classList.toggle("on", !up);
+            tabUp.classList.toggle("on", up);
+            switchText.innerHTML = up
+                ? 'Already have an account? <a href="#signin" id="switchLink">Sign in</a>'
+                : 'Don\'t have an account? <a href="#signup" id="switchLink">Sign up</a>';
+            history.replaceState(null, "", up ? "#signup" : "#signin");
+        }
+        tabIn.addEventListener("click", () => mode(false));
+        tabUp.addEventListener("click", () => mode(true));
+        switchText.addEventListener("click", function (e) {
+            if (e.target.id === "switchLink") { e.preventDefault(); mode(signin.hidden ? false : true); }
+        });
+        // Open straight on Sign up with login.html#signup
+        mode(location.hash === "#signup");
+
+        /* ---- show / hide password ---- */
+        document.querySelectorAll(".eye").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const input = btn.parentNode.querySelector("input");
+                const show = input.type === "password";
+                input.type = show ? "text" : "password";
+                btn.innerHTML = show ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+                btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+            });
+        });
+
+        /* ---- remember email only (never the password) ---- */
+        const inEmail = document.getElementById("inEmail");
+        const remember = document.getElementById("remember");
+        try {
+            const saved = localStorage.getItem("zanEmail");
+            if (saved) { inEmail.value = saved; remember.checked = true; }
+        } catch (e) {}
+
+        /* ---- sign in ---- */
+        signin.addEventListener("submit", function (e) {
+            e.preventDefault();
+            clearAll();
+            const a = flag("inEmail", "inEmailHint", !emailOk(inEmail.value.trim()));
+            const b = flag("inPass", "inPassHint", document.getElementById("inPass").value === "");
+            if (!(a && b)) return;
+
+            try {
+                if (remember.checked) localStorage.setItem("zanEmail", inEmail.value.trim());
+                else localStorage.removeItem("zanEmail");
+            } catch (e) {}
+
+            // TODO: send email + password to your server here.
+            showMsg("Signed in successfully. Welcome back!", "ok");
+        });
+
+        /* ---- sign up ---- */
+        signup.addEventListener("submit", function (e) {
+            e.preventDefault();
+            clearAll();
+            const p1 = document.getElementById("upPass").value;
+            const p2 = document.getElementById("upPass2").value;
+            const a = flag("upName", "upNameHint", document.getElementById("upName").value.trim() === "");
+            const b = flag("upEmail", "upEmailHint", !emailOk(document.getElementById("upEmail").value.trim()));
+            const c = flag("upPass", "upPassHint", p1.length < 6);
+            const d = flag("upPass2", "upPass2Hint", p1 !== p2 || p2 === "");
+            if (!(a && b && c && d)) return;
+
+            // TODO: send the new account details to your server here.
+            showMsg("Account created. You can now sign in.", "ok");
+            signup.reset();
+            setTimeout(() => mode(false), 1500);
+        });
+
+        /* ---- Google ---- */
+        document.getElementById("googleBtn").addEventListener("click", function () {
+            // TODO: connect Google Sign-In here.
+            showMsg("Google sign-in is not connected yet.", "err");
+        });
+    </script>
+</body>
+</html>

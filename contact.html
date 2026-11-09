@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Inside Zanzibar - Contact</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <style>
+/* ========== RESET ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background-color: antiquewhite; font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+button, input, textarea, select { font-family: inherit; }
+
+:root {
+    --teal: rgb(21, 122, 109);
+    --teal-deep: rgb(23, 85, 85);
+    --footer: rgb(39, 69, 74);
+}
+
+/* ========== NAVIGATION ========== */
+.navbar {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.navpart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+.logo img { width: 80px; }
+.link { display: flex; align-items: center; gap: 10px 28px; }
+.link a {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+.link a:hover, .link a.active { background-color: var(--teal); color: white; }
+.navright { display: flex; align-items: center; gap: 16px; }
+.batan a { text-decoration: none; }
+.batan button {
+    color: white;
+    background-color: var(--teal-deep);
+    width: 100px;
+    height: 44px;
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+.language { font-weight: bolder; color: var(--teal-deep); font-size: 14px; }
+.language select { padding: 4px; border-radius: 6px; }
+
+/* ========== TITLE ========== */
+.title {
+    text-align: center;
+    padding: 40px 20px 10px;
+}
+.title h1 { font-weight: lighter; font-size: clamp(34px, 6vw, 56px); color: var(--teal-deep); }
+.title h2 {
+    font-weight: lighter;
+    font-family: cursive;
+    font-size: clamp(18px, 3vw, 30px);
+    margin-top: 12px;
+}
+
+/* ========== COMMENT + ABOUT ========== */
+.upper {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 30px 24px 50px;
+}
+.upperall {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+}
+.card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+.card h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: clamp(20px, 2.2vw, 26px);
+    color: var(--teal-deep);
+    margin-bottom: 16px;
+}
+
+/* Form */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 6px; }
+.field input, .field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 12px;
+    background-color: #fafafa;
+    transition: 0.2s ease;
+}
+.field textarea { height: 170px; resize: vertical; line-height: 1.5; }
+.field input:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(21,122,109,0.2);
+    background-color: white;
+}
+.counter {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #555;
+}
+.counter.warn { color: darkorange; font-weight: bold; }
+.counter.full { color: crimson; font-weight: bold; }
+.bar { height: 5px; background-color: #e5e5e5; border-radius: 5px; margin-top: 6px; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background-color: var(--teal); transition: width 0.2s ease, background-color 0.2s ease; }
+.bar.warn span { background-color: darkorange; }
+.bar.full span { background-color: crimson; }
+
+.submit {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background-color: var(--teal-deep);
+    border: 0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+.submit:hover { background-color: var(--teal); }
+.msg { margin-top: 12px; padding: 12px 14px; border-radius: 10px; font-weight: bold; display: none; }
+.msg.ok { display: block; background-color: #e3f6e8; color: #166534; }
+.msg.err { display: block; background-color: #fde8e8; color: #a11; }
+
+/* About + pictures */
+.details p { font-size: clamp(16px, 1.7vw, 19px); line-height: 1.7; color: #333; }
+.advertisement {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 22px;
+}
+.advertisement div {
+    aspect-ratio: 3 / 4;
+    border: 3px solid white;
+    border-radius: 40px 40px 40px 4px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+.picture1 { background-image: url("picha/jozani.jpg"); }
+.picture2 { background-image: url("picha/old fort.jpg"); }
+.picture3 { background-image: url("picha/paje.jpg"); }
+
+/* ========== FOOTER / CONTACT ========== */
+.contactpage { background-color: var(--footer); color: white; }
+.contactall {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1.2fr;
+    gap: 40px;
+}
+.contact img { width: 120px; }
+.contact h1, .Quiklink h1, .contactog h1 { font-size: 24px; margin-bottom: 14px; }
+.contact h1 { margin-top: 10px; }
+.contact p { line-height: 1.7; color: #e5eeee; }
+.Quiklink { display: flex; flex-direction: column; gap: 12px; }
+.Quiklink h1 { margin-bottom: 4px; }
+.Quiklink a {
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    width: fit-content;
+    transition: 0.2s ease;
+}
+.Quiklink a:hover { color: wheat; transform: translateX(4px); }
+.contactog { display: flex; flex-direction: column; gap: 12px; }
+.contactog h1 { margin-bottom: 4px; }
+.contactog p, .contactog a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    text-decoration: none;
+    line-height: 1.4;
+    word-break: break-word;
+}
+.contactog i { width: 22px; text-align: center; color: wheat; }
+.contactog a:hover { color: wheat; }
+.copy {
+    text-align: center;
+    padding: 14px;
+    font-size: 14px;
+    background-color: rgba(0,0,0,0.25);
+    color: #ccd;
+}
+
+/* ========== TABLET ========== */
+@media (max-width: 1024px) {
+    .navpart { padding: 8px 16px; }
+    .link { gap: 6px 10px; }
+    .upper { padding: 20px 16px 40px; }
+    .upperall { grid-template-columns: 1fr; gap: 20px; }
+    .advertisement { grid-template-columns: repeat(3, 1fr); }
+    .advertisement div { aspect-ratio: 4 / 3; }
+    .contactall { grid-template-columns: 1fr 1fr; gap: 30px; padding: 32px 16px; }
+    .contact { grid-column: 1 / -1; }
+}
+
+/* ========== PHONE ========== */
+@media (max-width: 768px) {
+    .navpart { flex-wrap: wrap; padding: 6px 12px; gap: 6px 10px; }
+    .logo { order: 1; }
+    .logo img { width: 55px; }
+    .navright { order: 2; margin-left: auto; gap: 10px; }
+    .batan button { width: 80px; height: 36px; font-size: 14px; }
+    .language p { display: none; }
+    .link {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 2px;
+        overflow-x: auto;
+        padding: 6px 0;
+        border-top: 1px solid #eee;
+    }
+    .link a { font-size: 13px; padding: 7px 8px; flex-shrink: 0; }
+
+    .title { padding: 28px 14px 4px; }
+    .upper { padding: 14px 12px 30px; }
+    .card { padding: 18px; border-radius: 16px; }
+    .field textarea { height: 150px; }
+    .advertisement { gap: 8px; }
+    .advertisement div { aspect-ratio: 3 / 4; border-radius: 28px 28px 28px 4px; border-width: 2px; }
+
+    .contactall { grid-template-columns: 1fr; gap: 26px; padding: 28px 16px; }
+    .Quiklink { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+    .Quiklink h1 { grid-column: 1 / -1; }
+}
+
+@media (max-width: 380px) {
+    .link a { font-size: 12px; padding: 6px 5px; }
+}
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <section class="navbar">
+        <div class="navpart">
+            <div class="logo">
+                <img src="picha/logo.png" alt="logo of the system">
+            </div>
+
+            <div class="link">
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="place.html">Place</a>
+                <a href="Tour.html">Tour</a>
+                <a href="Hotel.html">Hotel</a>
+                <a href="contact.html" class="active">Contact</a>
+            </div>
+
+            <div class="navright">
+                <div class="batan">
+                    <a href="login.html"><button>Sign up</button></a>
+                </div>
+                <div class="language">
+                    <p>language</p>
+                    <select name="language">
+                        <option value="English">English</option>
+                        <option value="France">French</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italian</option>
+                        <option value="Swahili">Swahili</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TITLE -->
+    <div class="title">
+        <h1>ZanExplore</h1>
+        <h2>Whole Zanzibar in your hand</h2>
+    </div>
+
+    <!-- COMMENT + ABOUT -->
+    <section class="upper">
+        <div class="upperall">
+
+            <div class="card textarea">
+                <h2><i class="fa-solid fa-comments"></i> Do you have any comment?</h2>
+
+                <div class="field">
+                    <label for="name">Your name (optional)</label>
+                    <input type="text" id="name" maxlength="60" placeholder="Enter your name">
+                </div>
+
+                <div class="field">
+                    <label for="text">Your comment</label>
+                    <textarea id="text" name="textmessage" maxlength="3000" placeholder="Enter your comment (maximum 300 words)"></textarea>
+                    <div class="counter" id="counter">
+                        <span>Maximum 300 words</span>
+                        <span id="wordCount">0 / 300 words</span>
+                    </div>
+                    <div class="bar" id="bar"><span id="barFill"></span></div>
+                </div>
+
+                <button class="submit" id="submitBtn">Submit <i class="fa-solid fa-paper-plane"></i></button>
+                <div class="msg" id="msg"></div>
+            </div>
+
+            <div class="card details">
+                <h2><i class="fa-solid fa-circle-info"></i> About ZanExplore</h2>
+                <p>
+                    Discover Zanzibar your way. Explore beautiful places, find your ideal
+                    accommodation, connect with local tour operators, and experience the
+                    culture, nature and hidden gems of Zanzibar, all in one place.
+                </p>
+
+                <div class="advertisement">
+                    <div class="picture1"></div>
+                    <div class="picture2"></div>
+                    <div class="picture3"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER / CONTACT -->
+    <section class="contactpage">
+        <div class="contactall">
+            <div class="contact">
+                <img src="picha/logo.png" alt="ZanExplore logo">
+                <h1>ZanExplore</h1>
+                <p>The ZanExplore platform, whole Zanzibar in your hand.
+                   We give you the best path to discover, explore and experience Zanzibar island.</p>
+            </div>
+
+            <div class="Quiklink">
+                <h1>Quick links</h1>
+                <a href="index.html">Home</a>
+                <a href="plan my trip.html">Plan my trip</a>
+                <a href="Place.html">Place</a>
+                <a href="Tour.html">Tour</a>
+                <a href="Hotel.html">Hotel</a>
+                <a href="Contact.html">Contact</a>
+            </div>
+
+            <div class="contactog">
+                <h1>Contact</h1>
+                <p><i class="fa-solid fa-location-dot"></i> Online platform</p>
+                <a href="tel:+255655578220"><i class="fa-solid fa-phone"></i> +255655578220</a>
+                <a href="https://wa.me/255655578220" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp: +255655578220</a>
+                <a href="mailto:Keshoyako123@gmail.com"><i class="fa-solid fa-envelope"></i> Keshoyako123@gmail.com</a>
+                <p><i class="fa-solid fa-clock"></i> Open 24 hours</p>
+            </div>
+        </div>
+        <div class="copy">© ZanExplore. All rights reserved.</div>
+    </section>
+
+    <script>
+        const MAX_WORDS = 300;
+        const text = document.getElementById("text");
+        const wordCount = document.getElementById("wordCount");
+        const counter = document.getElementById("counter");
+        const bar = document.getElementById("bar");
+        const barFill = document.getElementById("barFill");
+        const msg = document.getElementById("msg");
+
+        function countWords(s) {
+            const w = s.match(/\S+/g);
+            return w ? w.length : 0;
+        }
+
+        // Cut the text after the 300th word (also works when pasting)
+        function limitWords(s) {
+            const re = /\S+/g;
+            let m, n = 0;
+            while ((m = re.exec(s)) !== null) {
+                n++;
+                if (n === MAX_WORDS) return s.slice(0, re.lastIndex);
+            }
+            return s;
+        }
+
+        function update() {
+            if (countWords(text.value) > MAX_WORDS) {
+                text.value = limitWords(text.value);
+            }
+            const n = countWords(text.value);
+            wordCount.textContent = n + " / " + MAX_WORDS + " words";
+            barFill.style.width = Math.min(100, (n / MAX_WORDS) * 100) + "%";
+
+            counter.classList.toggle("full", n >= MAX_WORDS);
+            counter.classList.toggle("warn", n >= 270 && n < MAX_WORDS);
+            bar.classList.toggle("full", n >= MAX_WORDS);
+            bar.classList.toggle("warn", n >= 270 && n < MAX_WORDS);
+        }
+
+        text.addEventListener("input", update);
+
+        document.getElementById("submitBtn").addEventListener("click", function () {
+            const comment = text.value.trim();
+            msg.className = "msg";
+
+            if (countWords(comment) === 0) {
+                msg.textContent = "Please write your comment first.";
+                msg.className = "msg err";
+                text.focus();
+                return;
+            }
+
+            // TODO: send the comment to your server / database here.
+            msg.textContent = "Thank you! Your comment has been received.";
+            msg.className = "msg ok";
+            text.value = "";
+            document.getElementById("name").value = "";
+            update();
+        });
+
+        update();
+    </script>
+</body>
+</html>
